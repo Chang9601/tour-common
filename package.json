@@ -1,12 +1,21 @@
 {
   "name": "@whooatour/common",
   "version": "1.0.0",
-  "description": "ExpressJS, MongoDB와 마이크로서비스 구조를 사용해서 여행 예약 서비스의 공통 모듈",
-  "main": "index.js",
+  "description": "ExpressJS, MongoDB와 마이크로서비스 구조를 사용한 여행 예약 서비스의 공통 모듈",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "del dist/*",
+    "build": "npm run clean && tsc"
   },
   "keywords": [],
   "author": "이창섭",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "del-cli": "^5.1.0",
+    "typescript": "^5.4.5"
+  }
 }
