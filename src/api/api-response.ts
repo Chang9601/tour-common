@@ -4,7 +4,7 @@ export type Metadata = {
   code: number;
   message: string;
   timestamp: number;
-  detail: string | string[];
+  detail?: string | string[];
 };
 
 export class ApiResponse<TData> {
@@ -15,9 +15,8 @@ export class ApiResponse<TData> {
     code: number,
     message: string,
     data: TData,
-    detail: string | string[],
+    detail: string | string[]
   ) {
-    // 클래스 속성은 인스턴스화 시 자동으로 초기화되지 않으므로 객체는 수동으로 초기화한다.
     this.metadata = {
       code,
       message,
@@ -32,7 +31,7 @@ export class ApiResponse<TData> {
     code: number,
     message: string,
     data: TData,
-    detail: string | string[],
+    detail: string | string[]
   ): ApiResponse<TData> {
     const successCode = code || Code.OK.code;
     const successMessage = message || Code.OK.message;
@@ -44,7 +43,7 @@ export class ApiResponse<TData> {
     code: number,
     message: string,
     detail: string | string[],
-    data: TData,
+    data: TData
   ): ApiResponse<TData> {
     const failureCode = code || Code.INTERNAL_SERVER_ERROR.code;
     const failureMessage = message || Code.INTERNAL_SERVER_ERROR.message;
