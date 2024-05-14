@@ -2,11 +2,11 @@ import { RequestQuery } from 'type/request-type';
 import { AbstractQuery } from 'type/query-type';
 
 // TODO: 제네릭 적용.
-export class QueryBuilder {
-  public query: AbstractQuery;
+export class QueryBuilder<TData> {
+  public query: AbstractQuery<TData>;
   public queryString: RequestQuery;
 
-  constructor(query: AbstractQuery, queryString: RequestQuery) {
+  constructor(query: AbstractQuery<TData>, queryString: RequestQuery) {
     this.query = query;
     this.queryString = queryString;
   }

@@ -1,3 +1,3 @@
-import { Document, Query } from 'mongoose';
+import { Query } from 'mongoose';
 
-export type AbstractQuery = Query<Document[], Document, {}, Document, 'find'>;
+export type AbstractQuery<TData> = Query<TData[], TData, {}, TData, 'find'>;
