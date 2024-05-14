@@ -1,7 +1,6 @@
-import { RequestQuery } from 'type/request-type';
-import { AbstractQuery } from 'type/query-type';
+import { RequestQuery } from '../type/request-type';
+import { AbstractQuery } from '../type/query-type';
 
-// TODO: 제네릭 적용.
 export class QueryBuilder<TData> {
   public query: AbstractQuery<TData>;
   public queryString: RequestQuery;
