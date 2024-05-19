@@ -9,7 +9,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   constructor(protected readonly model: Model<TDocument>) {}
 
   public async create(document: Omit<TDocument, '_id'>): Promise<TDocument> {
-    return this.model.create(document);
+    return await this.model.create(document);
   }
 
   public findAll(): AbstractQuery<TDocument> {
@@ -17,7 +17,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   }
 
   public async find(filter: FilterQuery<TDocument>): Promise<TDocument> {
-    const document = await this.model.findOne(filter); //.lean<TDocument>(true);
+    const document = await this.model.findOne(filter).lean<TDocument>(true);
 
     if (!document) {
       throw new DocumentNotFoundError(
@@ -37,6 +37,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     const document = await this.model
       .findOneAndUpdate(filter, update, {
         new: true,
+        runValidators: true,
       })
       .lean<TDocument>();
 
