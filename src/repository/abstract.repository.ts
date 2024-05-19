@@ -1,8 +1,9 @@
-import { FilterQuery, Model, UpdateQuery } from 'mongoose';
+import { FilterQuery, Model, Query, UpdateQuery } from 'mongoose';
 
 import { AbstractDocument } from '../type/abstract.schema';
 import { DocumentNotFoundError } from '../error/document-not-found.error';
 import { Code } from '../code/code';
+import { AbstractQuery } from '../type/query-type';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   constructor(protected readonly model: Model<TDocument>) {}
@@ -11,7 +12,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     return this.model.create(document);
   }
 
-  public findAll() /*: TDocument[]*/ {
+  public findAll(): AbstractQuery<TDocument> {
     return this.model.find().lean<TDocument[]>(true);
   }
 
