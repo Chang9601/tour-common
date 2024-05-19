@@ -1,4 +1,4 @@
-export abstract class AbstractException extends Error {
+export abstract class AbstractError extends Error {
   public abstract code: number;
   public abstract message: string;
   public abstract details: string | string[];

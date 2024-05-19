@@ -1,3 +1,9 @@
 import { Query } from 'mongoose';
 
-export type AbstractQuery<TData> = Query<TData[], TData, {}, TData, 'find'>;
+export type AbstractQuery<TDocument> = Query<
+  TDocument[],
+  TDocument,
+  {},
+  TDocument,
+  'find'
+>;

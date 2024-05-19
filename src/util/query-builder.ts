@@ -1,11 +1,11 @@
 import { RequestQuery } from '../type/request-type';
 import { AbstractQuery } from '../type/query-type';
 
-export class QueryBuilder<TData> {
-  public query: AbstractQuery<TData>;
+export class QueryBuilder<TDocument> {
+  public query: AbstractQuery<TDocument>;
   public queryString: RequestQuery;
 
-  constructor(query: AbstractQuery<TData>, queryString: RequestQuery) {
+  constructor(query: AbstractQuery<TDocument>, queryString: RequestQuery) {
     this.query = query;
     this.queryString = queryString;
   }
