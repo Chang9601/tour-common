@@ -8,15 +8,14 @@ export function validatorMiddleware(schema: any) {
   return [
     schema,
     (request: Request, response: Response, next: NextFunction) => {
-      const errors = validationResult(request);
+      const result = validationResult(request);
+      const errors = result.formatWith((error) => error.msg).array();
 
-      console.log(errors);
-
-      if (!errors.isEmpty()) {
+      if (!result.isEmpty()) {
         const failure = ApiResponse.handleFailure(
           Code.BAD_REQUEST.code,
           Code.BAD_REQUEST.message,
-          errors.array.toString(),
+          errors,
           null
         );
 
