@@ -17,6 +17,6 @@ export function errorMiddleware(
   const message = codeAttr.message;
 
   response
-    .status(error.codeAttr.code)
+    .status(code)
     .json(ApiResponse.handleFailure(code, message, detail, null));
 }
