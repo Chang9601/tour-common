@@ -27,14 +27,6 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   ): Promise<Nullable<TDocument>> {
     const document = await this.model.findOne(filter); //.lean<TDocument>(true);
 
-    if (!document) {
-      throw new DocumentNotFoundError(
-        Code.NOT_FOUND,
-        '도큐먼트가 존재하지 않습니다.',
-        true
-      );
-    }
-
     return document;
   }
 
