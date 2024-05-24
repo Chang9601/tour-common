@@ -1,12 +1,12 @@
-export type CodeAttr = {
+type CodeAttr = {
   code: number;
   message: string;
 };
 
-export type CodeToMessage = Record<number, string>;
-export type MessageToCode = Record<string, number>;
+type CodeToMessage = Record<number, string>;
+type MessageToCode = Record<string, number>;
 
-export class Code {
+class Code {
   public static readonly OK: CodeAttr = {
     code: 200,
     message: '성공했습니다.',
@@ -54,3 +54,5 @@ export class Code {
 
   public static toCode: MessageToCode = {};
 }
+
+export { CodeAttr, Code };

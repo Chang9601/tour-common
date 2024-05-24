@@ -25,9 +25,9 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
 
     if (!document) {
       throw new DocumentNotFoundError(
-        Code.NOT_FOUND.code,
-        Code.NOT_FOUND.message,
-        '도큐먼트가 존재하지 않습니다.'
+        Code.NOT_FOUND,
+        '도큐먼트가 존재하지 않습니다.',
+        true
       );
     }
 
@@ -46,9 +46,9 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
 
     if (!document) {
       throw new DocumentNotFoundError(
-        Code.NOT_FOUND.code,
-        Code.NOT_FOUND.message,
-        '도큐먼트가 존재하지 않습니다.'
+        Code.NOT_FOUND,
+        '도큐먼트가 존재하지 않습니다.',
+        true
       );
     }
 
@@ -61,9 +61,9 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
 
     if (!document) {
       throw new DocumentNotFoundError(
-        Code.NOT_FOUND.code,
-        Code.NOT_FOUND.message,
-        '도큐먼트가 존재하지 않습니다.'
+        Code.NOT_FOUND,
+        '도큐먼트가 존재하지 않습니다.',
+        true
       );
     }
 
