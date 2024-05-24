@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { AsyncFunction } from '../type/async-function-type';
-import { QueryRequest } from '../type/request-type';
+import { AsyncFunction } from '../type/async-function';
+import { QueryRequest } from '../type/query-request';
 
 /*
  * catchAsync() 함수는 익명 함수를 반환하고 익명 함수는 라우트 핸들러에 할당된다.

@@ -1,5 +1,5 @@
-import { RequestQuery } from '../type/request-type';
-import { AbstractQuery } from '../type/query-type';
+import { RequestQuery } from '../type/query-request';
+import { AbstractQuery } from '../type/abstract-query';
 
 export class QueryBuilder<TDocument> {
   public query: AbstractQuery<TDocument>;

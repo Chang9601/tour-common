@@ -3,7 +3,7 @@ import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 import { AbstractDocument } from '../type/abstract.schema';
 import { DocumentNotFoundError } from '../error/document-not-found.error';
 import { Code } from '../code/code';
-import { AbstractQuery } from '../type/query-type';
+import { AbstractQuery } from '../type/abstract-query';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   constructor(protected readonly model: Model<TDocument>) {}

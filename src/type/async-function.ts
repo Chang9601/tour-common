@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { QueryRequest } from './request-type';
+import { QueryRequest } from './query-request';
 
 export type AsyncFunction = (
   request: Request | QueryRequest,
