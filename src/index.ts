@@ -15,7 +15,8 @@ export * from './repository/abstract.repository';
 export * from './type/query-request';
 export * from './type/abstract.schema';
 export * from './type/async-function';
-export * from './type/abstract-query';
+export * from './type/find-query';
+export * from './type/null';
 
 export * from './util/query-builder';
 export * from './util/catch-async';
