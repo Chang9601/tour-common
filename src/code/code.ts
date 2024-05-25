@@ -48,17 +48,17 @@ class Code {
   };
 
   public static readonly MONGO_ID_ERROR: CodeAttr = {
-    code: 1000,
+    code: 400,
     message: '유효하지 않은 MongoDB 아이디입니다.',
   };
 
   public static readonly MONGO_VALIDATION_ERROR: CodeAttr = {
-    code: 1001,
+    code: 400,
     message: '유효하지 않은 MongoDB 필드입니다.',
   };
 
   public static readonly MONGO_DUPLICATE_ERROR: CodeAttr = {
-    code: 1002,
+    code: 409,
     message: '중복된 MongoDB 도큐먼트입니다.',
   };
 
