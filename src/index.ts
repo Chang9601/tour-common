@@ -6,6 +6,9 @@ export * from './controller/abstract.controller';
 
 export * from './error/abstract.error';
 export * from './error/document-not-found.error';
+export * from './error/mongo-id.error';
+export * from './error/mongo-duplicate.error';
+export * from './error/mongo-validation.error';
 
 export * from './middleware/validation.middleware';
 export * from './middleware/error.middleware';
