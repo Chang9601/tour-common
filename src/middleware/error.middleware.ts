@@ -16,7 +16,7 @@ interface ErrorAttr {
 
 const handleMongooseError = (error: ErrorAttr) => {
   if (error instanceof MongooseError.CastError) {
-    const detail = `유효하지 않은 ${error.path}: ${error.value}.`;
+    const detail = error.value;
 
     return new MongoIdError(Code.MONGO_ID_ERROR, detail, true);
   }
@@ -27,6 +27,7 @@ const handleMongooseError = (error: ErrorAttr) => {
     return new MongoValidationError(Code.MONGO_VALIDATION_ERROR, detail, true);
   }
 
+  // TODO: 따옴표 제거(e.g., \"서울숲\").
   const detail = error.errmsg.match(/(["'])(\\?.)*?\1/)![0];
 
   return new MongoDuplicateError(Code.MONGO_DUPLICATE_ERROR, detail, true);
