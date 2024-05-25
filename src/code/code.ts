@@ -47,6 +47,21 @@ class Code {
     message: '서버 오류가 발생했습니다.',
   };
 
+  public static readonly MONGO_ID_ERROR: CodeAttr = {
+    code: 1000,
+    message: '유효하지 않은 MongoDB 아이디입니다.',
+  };
+
+  public static readonly MONGO_VALIDATION_ERROR: CodeAttr = {
+    code: 1001,
+    message: '유효하지 않은 MongoDB 필드입니다.',
+  };
+
+  public static readonly MONGO_DUPLICATE_ERROR: CodeAttr = {
+    code: 1002,
+    message: '중복된 MongoDB 도큐먼트입니다.',
+  };
+
   public static toMessage: CodeToMessage = {
     [Code.BAD_REQUEST.code]: Code.BAD_REQUEST.message,
     [Code.UNAUTHORIZED.code]: Code.UNAUTHORIZED.message,

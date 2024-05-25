@@ -1,8 +1,6 @@
 import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 
 import { AbstractDocument } from '../type/abstract.schema';
-import { DocumentNotFoundError } from '../error/document-not-found.error';
-import { Code } from '../code/code';
 import { FindQuery } from '../type/find-query';
 import { Nullable } from '../type/null';
 
@@ -18,7 +16,6 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
      * lean() 메서드를 호출하면 toJSON() 메서드와 toObject() 메서드가 적용되지 않는다.
      * lean() 메서드를 적용하면 쿼리의 반환값은 Mongoose 도큐먼트가 아니라 일반 JavaScript 객체이다.
      */
-
     return this.model.find(); //.lean<TDocument[]>(true);
   }
 
