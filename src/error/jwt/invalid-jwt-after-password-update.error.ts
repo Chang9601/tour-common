@@ -1,4 +1,5 @@
-import { AbstractError, CodeAttr } from '@whooatour/common';
+import { CodeAttr } from '../../code/code';
+import { AbstractError } from '../abstract.error';
 
 export class InvalidJwtAfterPasswordUpdate extends AbstractError {
   constructor(
