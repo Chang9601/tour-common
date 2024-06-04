@@ -5,7 +5,9 @@ type UserPayload = {
   id: Types.ObjectId;
 };
 
-type RequestWithUser = Request & { user: UserPayload };
+interface RequestWithUser extends Request {
+  user: UserPayload;
+}
 
 type TokenPayload = {
   id: Types.ObjectId;
