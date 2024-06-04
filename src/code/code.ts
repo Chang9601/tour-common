@@ -29,7 +29,7 @@ class Code {
 
   public static readonly UNAUTHORIZED: CodeAttr = {
     code: 401,
-    message: '권한이 없습니다.',
+    message: '인증되지 않았습니다.',
   };
 
   public static readonly NOT_FOUND: CodeAttr = {
@@ -60,6 +60,21 @@ class Code {
   public static readonly MONGO_DUPLICATE_ERROR: CodeAttr = {
     code: 409,
     message: '중복된 MongoDB 도큐먼트입니다.',
+  };
+
+  public static readonly JWT_VALIDATION_ERROR: CodeAttr = {
+    code: 401,
+    message: '유효하지 않은 JWT입니다.',
+  };
+
+  public static readonly JWT_EXPIRATION_ERROR: CodeAttr = {
+    code: 401,
+    message: '만료된 JWT입니다.',
+  };
+
+  public static readonly JWT_AFTER_PASSWORD_UPDATE_ERROR: CodeAttr = {
+    code: 401,
+    message: 'JWT 발급 후 비밀번호가 변경되었습니다.',
   };
 
   public static toMessage: CodeToMessage = {

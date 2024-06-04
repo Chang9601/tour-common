@@ -6,9 +6,11 @@ export * from './controller/abstract.controller';
 
 export * from './error/abstract.error';
 export * from './error/document-not-found.error';
-export * from './error/mongo-id.error';
-export * from './error/mongo-duplicate.error';
-export * from './error/mongo-validation.error';
+export * from './error/mongodb/mongo-id.error';
+export * from './error/mongodb/mongo-duplicate.error';
+export * from './error/mongodb/mongo-validation.error';
+export * from './error/jwt/jwt-validation.error';
+export * from './error/jwt/jwt-expiration.error';
 
 export * from './middleware/validation.middleware';
 export * from './middleware/error.middleware';

@@ -33,6 +33,7 @@ export class ApiResponse<TData> {
     data: TData,
     detail: string | string[]
   ): ApiResponse<TData> {
+    // TODO: 그냥 code: CodeAttr?
     const successCode = code || Code.OK.code;
     const successMessage = message || Code.OK.message;
 

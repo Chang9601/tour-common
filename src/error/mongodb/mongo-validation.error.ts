@@ -1,7 +1,7 @@
-import { CodeAttr } from '../code/code';
-import { AbstractError } from './abstract.error';
+import { CodeAttr } from '../../code/code';
+import { AbstractError } from '../abstract.error';
 
-export class MongoIdError extends AbstractError {
+export class MongoValidationError extends AbstractError {
   constructor(
     public readonly codeAttr: CodeAttr,
     public readonly detail: string | string[],

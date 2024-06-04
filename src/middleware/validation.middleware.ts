@@ -4,7 +4,7 @@ import { validationResult } from 'express-validator';
 import { ApiResponse } from '../api/api-response';
 import { Code } from '../code/code';
 
-export function validationMiddleware(schema: any) {
+export const validationMiddleware = (schema: any) => {
   return [
     schema,
     (request: Request, response: Response, next: NextFunction) => {
@@ -30,4 +30,4 @@ export function validationMiddleware(schema: any) {
       next();
     },
   ];
-}
+};

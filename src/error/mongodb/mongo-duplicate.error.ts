@@ -1,5 +1,5 @@
-import { CodeAttr } from '../code/code';
-import { AbstractError } from './abstract.error';
+import { CodeAttr } from '../../code/code';
+import { AbstractError } from '../abstract.error';
 
 export class MongoDuplicateError extends AbstractError {
   constructor(

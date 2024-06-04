@@ -19,6 +19,8 @@ export abstract class AbstractError extends Error {
 
     this.name = this.constructor.name;
 
+    // TODO: isOperational은 항상 true인데 어떻게?
+
     /* 새로운 객체가 생성되고 생성자 함수가 호출되면 함수 호출이 스택 트레이스에 나타나지 않는다. */
     Error.captureStackTrace(this, this.constructor);
   }

@@ -1,7 +1,6 @@
-import { CodeAttr } from '../code/code';
-import { AbstractError } from './abstract.error';
+import { AbstractError, CodeAttr } from '@whooatour/common';
 
-export class MongoValidationError extends AbstractError {
+export class InvalidJwtAfterPasswordUpdate extends AbstractError {
   constructor(
     public readonly codeAttr: CodeAttr,
     public readonly detail: string | string[],

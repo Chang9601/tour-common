@@ -3,10 +3,13 @@ import { Error as MongooseError } from 'mongoose';
 
 import { ApiResponse } from '../api/api-response';
 import { Code } from '../code/code';
-import { MongoIdError } from '../error/mongo-id.error';
-import { MongoValidationError } from '../error/mongo-validation.error';
+
 import { AbstractError } from '../error/abstract.error';
-import { MongoDuplicateError } from '../error/mongo-duplicate.error';
+import { MongoDuplicateError } from '../error/mongodb/mongo-duplicate.error';
+import { JwtValidationError } from '../error/jwt/jwt-validation.error';
+import { JwtExpirationError } from '../error/jwt/jwt-expiration.error';
+import { MongoIdError } from '../error/mongodb/mongo-id.error';
+import { MongoValidationError } from '../error/mongodb/mongo-validation.error';
 
 interface ErrorAttr {
   name: string;
@@ -33,17 +36,28 @@ const handleMongooseError = (error: ErrorAttr) => {
   return new MongoDuplicateError(Code.MONGO_DUPLICATE_ERROR, detail, true);
 };
 
+const handleJwtError = (error: ErrorAttr) => {
+  const detail = '로그인이 필요합니다.';
+
+  if (error.name === 'JsonWebTokenError') {
+    return new JwtValidationError(Code.JWT_VALIDATION_ERROR, detail, true);
+  }
+
+  return new JwtExpirationError(Code.JWT_EXPIRATION_ERROR, detail, true);
+};
+
 // TODO: 환경(e.g, 개발, 운영)에 따른 오류 처리가 필요한지 고민.
-export function errorMiddleware(
+export const errorMiddleware = (
   error: ErrorAttr,
   request: Request,
   response: Response,
   next: NextFunction
-) {
+) => {
   let code: number = Code.INTERNAL_SERVER_ERROR.code;
   let message: string = Code.INTERNAL_SERVER_ERROR.message;
   let detail: string | string[] = '오류가 발생했습니다.';
 
+  /* 1. MongoDB 오류. */
   if (
     error.name === 'CastError' ||
     error.name === 'ValidationError' ||
@@ -54,15 +68,27 @@ export function errorMiddleware(
     code = handledError.codeAttr.code;
     message = handledError.codeAttr.message;
     detail = handledError.detail;
+    /* 2. 애플리케이션 오류. */
   } else if (error instanceof AbstractError) {
     code = error.codeAttr.code;
     message = error.codeAttr.message;
     detail = error.detail;
+    /* 3. JWT 오류. */
+  } else if (
+    error.name === 'JsonWebTokenError' ||
+    error.name === 'TokenExpiredError'
+  ) {
+    const handledError = handleJwtError(error);
+
+    code = handledError.codeAttr.code;
+    message = handledError.codeAttr.message;
+    detail = handledError.detail;
+    /* 4. 나머지 오류. */
   } else if (error instanceof Error) {
     detail = error.message;
   }
 
-  response
+  return response
     .status(code)
     .json(ApiResponse.handleFailure(code, message, detail, null));
-}
+};
