@@ -3,8 +3,6 @@ import { Types } from 'mongoose';
 
 type UserPayload = {
   id: Types.ObjectId;
-  iat: number;
-  exp: number;
 };
 
 type RequestWithUser = Request & { user: UserPayload };
