@@ -21,7 +21,7 @@ export * from './type/query-request';
 export * from './type/abstract.schema';
 export * from './type/async-function';
 export * from './type/find-query';
-export * from './type/null';
+export * from './type/nullish';
 export * from './type/auth-type';
 
 export * from './util/query-builder';

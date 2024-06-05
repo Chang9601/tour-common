@@ -2,7 +2,7 @@ import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 
 import { AbstractDocument } from '../type/abstract.schema';
 import { FindQuery } from '../type/find-query';
-import { Nullable } from '../type/null';
+import { Nullable } from '../type/nullish';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   constructor(protected readonly model: Model<TDocument>) {}
