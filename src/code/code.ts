@@ -32,6 +32,11 @@ class Code {
     message: '인증되지 않았습니다.',
   };
 
+  public static readonly FORBIDDEN: CodeAttr = {
+    code: 403,
+    message: '권한이 없습니다.',
+  };
+
   public static readonly NOT_FOUND: CodeAttr = {
     code: 404,
     message: '찾을 수 없습니다.',

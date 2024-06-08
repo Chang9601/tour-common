@@ -11,8 +11,8 @@ type UserPayload = {
 // TODO: 옵션을 제거할 수 있는 개선법.
 type RequestWithUser = Request & { user?: UserPayload };
 
-type TokenPayload = {
+type JwtPayload = {
   id: Types.ObjectId;
 };
 
-export { UserPayload, RequestWithUser, TokenPayload };
+export { UserPayload, RequestWithUser, JwtPayload };
