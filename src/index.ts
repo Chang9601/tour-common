@@ -13,6 +13,10 @@ export * from './error/mongodb/mongo-duplicate.error';
 export * from './error/mongodb/mongo-validation.error';
 export * from './error/jwt/jwt-validation.error';
 export * from './error/jwt/jwt-expiration.error';
+export * from './error/user/invalid-jwt-after-password-update.error';
+export * from './error/user/unauthenticated-user.error';
+export * from './error/user/unauthorized-user.error';
+export * from './error/user/user-not-found.error';
 
 export * from './middleware/auth.middleware';
 export * from './middleware/error.middleware';
