@@ -33,7 +33,11 @@ const handleMongooseError = (error: ErrorAttr) => {
   // TODO: 따옴표 제거(e.g., \"서울숲\").
   const detail = error.errmsg.match(/(["'])(\\?.)*?\1/)![0];
 
-  return new MongoDuplicateError(Code.MONGO_DUPLICATE_ERROR, detail, true);
+  return new MongoDuplicateError(
+    Code.MONGO_DUPLICATE_ERROR,
+    detail.substring(1, detail.length - 1),
+    true
+  );
 };
 
 const handleJwtError = (error: ErrorAttr) => {

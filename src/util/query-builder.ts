@@ -16,14 +16,11 @@ export class QueryBuilder<TDocument> {
     const excluded = ['page', 'sort', 'limit', 'fields'];
     excluded.forEach((element) => delete queryString[element]);
 
-    /* 2. 고급 필터링 */
+    /* 2. 고급 필터링 TODO: 예시 적기. */
     let filter = JSON.stringify(queryString);
     filter = filter.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
 
     this.query = this.query.find(JSON.parse(filter));
-
-    const a = this.query.find().sort();
-    const b = this.query;
 
     /* 메서드 체이닝을 위해 this(즉, 객체 전체)를 반환한다. */
     return this;

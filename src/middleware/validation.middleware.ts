@@ -1,10 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
-import { validationResult } from 'express-validator';
+import { ValidationChain, validationResult } from 'express-validator';
+import { RunnableValidationChains } from 'express-validator/lib/middlewares/schema';
 
 import { ApiResponse } from '../api/api-response';
 import { Code } from '../code/code';
 
-export const validationMiddleware = (schema: any) => {
+export const validationMiddleware = (
+  schema: RunnableValidationChains<ValidationChain>
+) => {
   return [
     schema,
     (request: Request, response: Response, next: NextFunction) => {

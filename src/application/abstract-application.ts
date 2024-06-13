@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import { AbstractController } from '../controller/abstract.controller';
 import { errorMiddleware } from '../middleware/error.middleware';
 
+// TODO: 데이터베이스도 추가?
 export abstract class AbstractApplication {
   private readonly app: express.Application;
   private readonly port: number;
