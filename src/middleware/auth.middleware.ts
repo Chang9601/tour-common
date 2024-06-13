@@ -91,7 +91,7 @@ const authenticationMiddleware = catchAsync(
  * 일반적으로 미들웨어 함수에 인자를 전달할 수 없다.
  * 따라서 포장 함수를 만들고 이 함수에서 미들웨어 함수를 반환한다.
  */
-const authorizeMiddleware = (...roles: UserRole[]) => {
+const authorizationMiddleware = (...roles: UserRole[]) => {
   return (request: RequestWithUser, response: Response, next: NextFunction) => {
     if (!roles.includes(request.user!.role)) {
       return next(
@@ -107,4 +107,4 @@ const authorizeMiddleware = (...roles: UserRole[]) => {
   };
 };
 
-export { authenticationMiddleware, authorizeMiddleware };
+export { authenticationMiddleware, authorizationMiddleware };
