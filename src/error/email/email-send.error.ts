@@ -1,7 +1,7 @@
 import { AbstractError } from '../abstract.error';
 import { CodeAttr } from '../../code/code';
 
-export class InvalidJwtAfterPasswordUpdateError extends AbstractError {
+export class EmailSendError extends AbstractError {
   constructor(
     public readonly codeAttr: CodeAttr,
     public readonly detail: string | string[],
