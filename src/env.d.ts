@@ -9,8 +9,8 @@ declare global {
       COOKIE_REFRESH_EXPIRATION: number;
 
       JWT_ACCESS_SECRET: string;
-      JWT_REFRESH_SECRET: string;
       JWT_ACCESS_EXPIRATION: string;
+      JWT_REFRESH_SECRET: string;
       JWT_REFRESH_EXPIRATION: string;
 
       NODEMAILER_HOST: string;

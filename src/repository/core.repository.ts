@@ -1,10 +1,10 @@
 import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 
-import { AbstractDocument } from '../type/abstract.schema';
+import { CoreDocument } from '../type/core.schema';
 import { FindQuery } from '../type/find-query';
 import { Nullable } from '../type/nullish';
 
-export abstract class AbstractRepository<TDocument extends AbstractDocument> {
+export abstract class CoreRepository<TDocument extends CoreDocument> {
   constructor(protected readonly model: Model<TDocument>) {}
 
   public async create(document: Omit<TDocument, '_id'>): Promise<TDocument> {

@@ -1,6 +1,6 @@
 import { CodeAttr } from '../code/code';
 
-export abstract class AbstractError extends Error {
+export abstract class CoreError extends Error {
   constructor(
     public readonly codeAttr: CodeAttr,
     public readonly detail: string | string[],

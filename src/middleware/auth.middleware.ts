@@ -3,10 +3,10 @@ import { Types } from 'mongoose';
 
 import { Code } from '../code/code';
 import { UserRole } from '../enum/user-role.enum';
-import { UnauthenticatedUserError } from '../error/user/unauthenticated-user.error';
-import { UserNotFoundError } from '../error/user/user-not-found.error';
 import { InvalidJwtAfterPasswordUpdateError } from '../error/user/invalid-jwt-after-password-update.error';
+import { UnauthenticatedUserError } from '../error/user/unauthenticated-user.error';
 import { UnauthorizedUserError } from '../error/user/unauthorized-user.error';
+import { UserNotFoundError } from '../error/user/user-not-found.error';
 import { User } from '../model/user.model';
 import { UserRepository } from '../repository/user.repository';
 import { RequestWithUser, UserPayload } from '../type/auth-type';
@@ -17,7 +17,7 @@ const authenticationMiddleware = catchAsync(
   async (request: RequestWithUser, response: Response, next: NextFunction) => {
     let token = null;
 
-    /* Beaer 토큰을 사용하는 경우. */
+    /* Authorinzation 헤더의 Beaer 토큰을 사용하는 경우. */
     // if (
     //   request.headers.authorization &&
     //   request.headers.authorization.startsWith('Bearer')

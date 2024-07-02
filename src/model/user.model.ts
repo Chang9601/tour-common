@@ -133,7 +133,7 @@ userSchema.pre('save', function (next) {
   }
 
   const now = new Date(Date.now() - 1000);
-  //this.updatedAt = this.passwordUpdatedAt = now;
+  this.passwordUpdatedAt = now;
 
   next();
 });

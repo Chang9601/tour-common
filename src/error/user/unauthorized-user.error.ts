@@ -1,7 +1,7 @@
-import { AbstractError } from '../abstract.error';
+import { CoreError } from '../core.error';
 import { CodeAttr } from '../../code/code';
 
-export class UnauthorizedUserError extends AbstractError {
+export class UnauthorizedUserError extends CoreError {
   constructor(
     public readonly codeAttr: CodeAttr,
     public readonly detail: string | string[],

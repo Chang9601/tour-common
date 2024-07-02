@@ -3,7 +3,7 @@ import * as nodemailer from 'nodemailer';
 import { EmailMessage } from '../type/email-message';
 
 export class EmailUtil {
-  public static sendEmail = async (
+  public static send = async (
     emailMessage: Partial<EmailMessage>
   ): Promise<void> => {
     /* 1. 트랜스포터(이메일을 전송하는 객체.)를 생성한다. */

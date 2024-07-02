@@ -4,10 +4,10 @@ import { Error as MongooseError } from 'mongoose';
 import { ApiResponse } from '../api/api-response';
 import { Code } from '../code/code';
 
-import { AbstractError } from '../error/abstract.error';
+import { CoreError } from '../error/core.error';
 import { MongoDuplicateError } from '../error/mongodb/mongo-duplicate.error';
-import { JwtValidationError } from '../error/jwt/jwt-validation.error';
 import { JwtExpirationError } from '../error/jwt/jwt-expiration.error';
+import { JwtValidationError } from '../error/jwt/jwt-validation.error';
 import { MongoIdError } from '../error/mongodb/mongo-id.error';
 import { MongoValidationError } from '../error/mongodb/mongo-validation.error';
 
@@ -73,7 +73,7 @@ export const errorMiddleware = (
     message = handledError.codeAttr.message;
     detail = handledError.detail;
     /* 2. 애플리케이션 오류. */
-  } else if (error instanceof AbstractError) {
+  } else if (error instanceof CoreError) {
     code = error.codeAttr.code;
     message = error.codeAttr.message;
     detail = error.detail;
