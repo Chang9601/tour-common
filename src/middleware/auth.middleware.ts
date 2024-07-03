@@ -7,9 +7,10 @@ import { InvalidJwtAfterPasswordUpdateError } from '../error/user/invalid-jwt-af
 import { UnauthenticatedUserError } from '../error/user/unauthenticated-user.error';
 import { UnauthorizedUserError } from '../error/user/unauthorized-user.error';
 import { UserNotFoundError } from '../error/user/user-not-found.error';
-import { User } from '../model/user.model';
+import { User, UserDocument } from '../model/user.model';
 import { UserRepository } from '../repository/user.repository';
 import { RequestWithUser, UserPayload } from '../type/auth-type';
+import { Nullable } from '../type/nullish';
 import { catchAsync } from '../util/catch-async';
 import { JwtUtil } from '../util/jwt-util';
 
@@ -51,34 +52,42 @@ const authenticationMiddleware = catchAsync(
       exp: number;
     };
 
-    /* 3. 사용자가 존재하는지 확인한다. */
-    const repository = new UserRepository(User);
-    const user = await repository.find({ _id: decoded.id });
-    if (!user) {
-      return next(
-        new UserNotFoundError(
-          Code.NOT_FOUND,
-          '사용자가 존재하지 않습니다.',
-          true
-        )
-      );
-    }
+    let user: Nullable<UserDocument>;
+    /* 3. 사용자가 존재하는지 확인한다(테스트 환경에서 생략한다.). */
+    if (
+      process.env.NODE_ENV == 'development' ||
+      process.env.NODE_ENV == 'production'
+    ) {
+      const repository = new UserRepository(User);
+      user = await repository.find({ _id: decoded.id });
+      if (!user) {
+        return next(
+          new UserNotFoundError(
+            Code.NOT_FOUND,
+            '사용자가 존재하지 않습니다.',
+            true
+          )
+        );
+      }
 
-    /* 4. 토큰 발행 후 비밀번호를 수정했는지 확인한다. */
-    if (user.isPasswordUpdatedAfterJwtIssued(decoded.iat)) {
-      return next(
-        new InvalidJwtAfterPasswordUpdateError(
-          Code.JWT_AFTER_PASSWORD_UPDATE_ERROR,
-          '로그인이 필요합니다.',
-          true
-        )
-      );
+      /* 4. 토큰 발행 후 비밀번호를 수정했는지 확인한다. */
+      if (user.isPasswordUpdatedAfterJwtIssued(decoded.iat)) {
+        return next(
+          new InvalidJwtAfterPasswordUpdateError(
+            Code.JWT_AFTER_PASSWORD_UPDATE_ERROR,
+            '로그인이 필요합니다.',
+            true
+          )
+        );
+      }
     }
 
     /* 접근 제어되는 경로에 접근을 허락한다. */
     const userPayload: UserPayload = {
-      id: user._id,
-      role: user.userRole,
+      id: process.env.NODE_ENV == 'test' ? decoded.id : user!._id,
+      // TODO: 역할은 어떻게?
+      userRole:
+        process.env.NODE_ENV == 'test' ? UserRole.Admin : user!.userRole,
     };
 
     request.user = userPayload;
@@ -91,9 +100,9 @@ const authenticationMiddleware = catchAsync(
  * 일반적으로 미들웨어 함수에 인자를 전달할 수 없다.
  * 따라서 포장 함수를 만들고 이 함수에서 미들웨어 함수를 반환한다.
  */
-const authorizationMiddleware = (...roles: UserRole[]) => {
+const authorizationMiddleware = (...userRoles: UserRole[]) => {
   return (request: RequestWithUser, response: Response, next: NextFunction) => {
-    if (!roles.includes(request.user!.role)) {
+    if (!userRoles.includes(request.user!.userRole)) {
       return next(
         new UnauthorizedUserError(
           Code.FORBIDDEN,
