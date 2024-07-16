@@ -10,7 +10,7 @@ export class QueryBuilder<TDocument> {
     this.queryString = queryString;
   }
 
-  public filter() {
+  public filter(): QueryBuilder<TDocument> {
     /* 1. 필터링 */
     const queryString = { ...this.queryString };
     const excluded = ['page', 'sort', 'limit', 'fields'];
@@ -26,7 +26,7 @@ export class QueryBuilder<TDocument> {
     return this;
   }
 
-  public sort() {
+  public sort(): QueryBuilder<TDocument> {
     /* 3. 정렬 */
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(',').join(' ');
@@ -38,7 +38,7 @@ export class QueryBuilder<TDocument> {
     return this;
   }
 
-  public project() {
+  public project(): QueryBuilder<TDocument> {
     /* 4. 필드 선택 */
     if (this.queryString.fields) {
       const fields = this.queryString.fields.split(',').join(' ');
@@ -50,7 +50,7 @@ export class QueryBuilder<TDocument> {
     return this;
   }
 
-  public paginate() {
+  public paginate(): QueryBuilder<TDocument> {
     /*
      * 5. 페이지네이션
      * page=2&limit=10 -> 1-10 page1 11-20 page2 21-30 page3

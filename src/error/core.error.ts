@@ -18,6 +18,8 @@ export abstract class CoreError extends Error {
     super();
 
     this.name = this.constructor.name;
+    // TODO: 사실상 전부 true.
+    //this.isOperational = true;
 
     // TODO: isOperational은 항상 true인데 어떻게?
 

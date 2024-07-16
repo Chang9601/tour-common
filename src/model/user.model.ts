@@ -1,6 +1,6 @@
 import * as crypto from 'crypto';
 
-import mongoose, { Types } from 'mongoose';
+import mongoose from 'mongoose';
 import validator from 'validator';
 import * as bcryptjs from 'bcryptjs';
 
@@ -15,7 +15,7 @@ interface UserAttr {
 }
 
 interface UserDocument extends mongoose.Document {
-  _id: Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   name: string;
   email: string;
   password: string;
@@ -146,7 +146,7 @@ userSchema.pre('find', function (next) {
 });
 
 /* statics는 모델에 정의된 메서드이다. */
-userSchema.statics.build = async (attrs: UserAttr) => {
+userSchema.statics.build = async function (attrs: UserAttr) {
   return await User.create(attrs);
 };
 

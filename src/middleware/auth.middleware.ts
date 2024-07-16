@@ -16,7 +16,7 @@ import { JwtUtil } from '../util/jwt-util';
 
 const authenticationMiddleware = catchAsync(
   async (request: RequestWithUser, response: Response, next: NextFunction) => {
-    let token = null;
+    let jwt = null;
 
     /* Authorinzation 헤더의 Beaer 토큰을 사용하는 경우. */
     // if (
@@ -28,10 +28,10 @@ const authenticationMiddleware = catchAsync(
 
     /* 1. 토큰을 추출한다. */
     if (request.cookies && request.cookies.AccessToken) {
-      token = request.cookies.AccessToken;
+      jwt = request.cookies.AccessToken;
     }
 
-    if (!token) {
+    if (!jwt) {
       return next(
         new UnauthenticatedUserError(
           Code.UNAUTHORIZED,
@@ -44,7 +44,7 @@ const authenticationMiddleware = catchAsync(
     /* 2. 토큰을 검증한다. */
     /* 콜백함수를 프로미스로 변형한다. */
     const decoded = (await JwtUtil.verify(
-      token,
+      jwt,
       process.env.JWT_ACCESS_SECRET
     )) as {
       id: Types.ObjectId;

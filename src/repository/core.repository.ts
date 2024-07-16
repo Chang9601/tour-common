@@ -4,6 +4,7 @@ import { CoreDocument } from '../type/core.schema';
 import { FindQuery } from '../type/find-query';
 import { Nullable } from '../type/nullish';
 
+// TODO: 404 오류를 여기서 처리?
 export abstract class CoreRepository<TDocument extends CoreDocument> {
   constructor(protected readonly model: Model<TDocument>) {}
 
@@ -11,12 +12,12 @@ export abstract class CoreRepository<TDocument extends CoreDocument> {
     return await this.model.create(document);
   }
 
-  public findAll(): FindQuery<TDocument> {
+  public findAll(filter?: FilterQuery<TDocument>): FindQuery<TDocument> {
     /*
      * lean() 메서드를 호출하면 toJSON() 메서드와 toObject() 메서드가 적용되지 않는다.
      * lean() 메서드를 적용하면 쿼리의 반환값은 Mongoose 도큐먼트가 아니라 일반 JavaScript 객체이다.
      */
-    return this.model.find(); //.lean<TDocument[]>(true);
+    return filter ? this.model.find(filter) : this.model.find(); //.lean<TDocument[]>(true);
   }
 
   public async find(
