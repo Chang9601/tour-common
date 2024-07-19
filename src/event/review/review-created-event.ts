@@ -7,8 +7,8 @@ export interface ReviewCreatedEvent extends CoreEvent {
   subject: Subject.ReviewCreated;
   data: {
     id: mongoose.Types.ObjectId;
-    ratingAverage: number;
-    ratingCount: number;
+    rating: number;
+    tourId: mongoose.Types.ObjectId;
     seq: number;
   };
 }

@@ -11,5 +11,6 @@ export interface CoreApplication {
   initializeMiddlewares(): void;
   initializeControllers(controllers: CoreController[]): void;
   connectToDatabase(): void;
+  connectToMessagingSystem(): void;
   initializeErrorHandler(): void;
 }

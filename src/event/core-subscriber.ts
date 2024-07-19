@@ -4,11 +4,11 @@ import { CoreEvent } from '../interface/core-event.interface';
 
 export abstract class CoreSubscriber<TEvent extends CoreEvent> {
   /* 구독자가 구독하려는 채널의 이름. */
-  abstract subject: TEvent['subject'];
+  public abstract subject: TEvent['subject'];
   /* 구독자가 참여할 큐 그룹. */
-  abstract queueGroup: string;
+  public abstract queueGroup: string;
   /* 메시지를 수신할 때 실행할 메서드. */
-  abstract onMessage(data: TEvent['data'], message: Message): void;
+  public abstract onMessage(data: TEvent['data'], message: Message): void;
   /* 초기화된 NATS 클라이언트. */
   protected client: Stan;
   /* 구독자가 메시지를 확인해야 하는 시간 */

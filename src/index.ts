@@ -21,6 +21,7 @@ export * from './error/user/user-not-found.error';
 
 export * from './event/core-publisher';
 export * from './event/core-subscriber';
+export * from './event/nats-instance';
 export * from './event/review/review-created-event';
 
 export * from './interface/application.interface';
