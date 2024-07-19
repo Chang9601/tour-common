@@ -10,7 +10,7 @@ export interface CoreApplication {
   listen(): void;
   initializeMiddlewares(): void;
   initializeControllers(controllers: CoreController[]): void;
-  connectToDatabase(): void;
-  connectToMessagingSystem(): void;
+  connectToMessagingSystem(): Promise<void>;
+  connectToDatabase(): Promise<void>;
   initializeErrorHandler(): void;
 }
