@@ -90,6 +90,8 @@ export const errorMiddleware = (
     /* 4. 나머지 오류. */
   } else if (error instanceof Error) {
     detail = error.message;
+  } else {
+    console.log(error);
   }
 
   return response

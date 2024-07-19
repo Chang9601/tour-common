@@ -1,7 +1,7 @@
-import nats, { Stan } from 'node-nats-streaming';
+import nats from 'node-nats-streaming';
 
 class NatsInstance {
-  private _client?: Stan;
+  private _client?: nats.Stan;
 
   public get client() {
     if (!this._client) {
