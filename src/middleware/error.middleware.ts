@@ -5,9 +5,9 @@ import { ApiResponse } from '../api/api-response';
 import { Code } from '../code/code';
 
 import { CoreError } from '../error/core.error';
-import { MongoDuplicateError } from '../error/mongodb/mongo-duplicate.error';
 import { JwtExpirationError } from '../error/jwt/jwt-expiration.error';
 import { JwtValidationError } from '../error/jwt/jwt-validation.error';
+import { MongoDuplicateError } from '../error/mongodb/mongo-duplicate.error';
 import { MongoIdError } from '../error/mongodb/mongo-id.error';
 import { MongoValidationError } from '../error/mongodb/mongo-validation.error';
 

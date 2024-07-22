@@ -1,5 +1,6 @@
 import nats from 'node-nats-streaming';
 
+// TODO: 예외
 class NatsInstance {
   private _client?: nats.Stan;
 
