@@ -1,5 +1,5 @@
-import { CodeAttr } from '../code/code';
-import { CoreError } from './core.error';
+import { CodeAttr } from '../../code/code';
+import { CoreError } from '../core.error';
 
 export class NatsNotConnectedError extends CoreError {
   constructor(

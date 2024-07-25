@@ -1,7 +1,7 @@
 import nats from 'node-nats-streaming';
 
 import { Code } from '../code/code';
-import { NatsNotConnectedError } from '../error/nats-not-connected.error';
+import { NatsNotConnectedError } from '../error/nats/nats-not-connected.error';
 
 class NatsInstance {
   private _client?: nats.Stan;
