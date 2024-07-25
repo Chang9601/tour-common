@@ -1,12 +1,18 @@
 import nats from 'node-nats-streaming';
 
-// TODO: 예외
+import { Code } from '../code/code';
+import { NatsNotConnectedError } from '../error/nats-not-connected.error';
+
 class NatsInstance {
   private _client?: nats.Stan;
 
   public get client() {
     if (!this._client) {
-      throw new Error('NATS 클라이언트를 연결 전 접근할 수 없습니다.');
+      throw new NatsNotConnectedError(
+        Code.NATS_NOT_CONNECTED_ERROR,
+        'NATS 클라이언트를 연결 전 접근할 수 없습니다.',
+        true
+      );
     }
 
     return this._client;
@@ -17,7 +23,7 @@ class NatsInstance {
 
     return new Promise<void>((resolve, reject) => {
       this.client.on('connect', () => {
-        console.log('NATS 연결');
+        console.log('NATS 연결 완료.');
         resolve();
       });
 

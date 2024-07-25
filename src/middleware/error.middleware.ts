@@ -21,13 +21,13 @@ const handleMongooseError = (error: ErrorAttr) => {
   if (error instanceof MongooseError.CastError) {
     const detail = error.value;
 
-    return new MongoIdError(Code.MONGO_ID_ERROR, detail, true);
+    return new MongoIdError(Code.MONGO_ID_ERROR, detail, false);
   }
 
   if (error instanceof MongooseError.ValidationError) {
     const detail = Object.values(error.errors).map((value) => value.message);
 
-    return new MongoValidationError(Code.MONGO_VALIDATION_ERROR, detail, true);
+    return new MongoValidationError(Code.MONGO_VALIDATION_ERROR, detail, false);
   }
 
   // TODO: 따옴표 제거(e.g., \"서울숲\").
@@ -36,7 +36,7 @@ const handleMongooseError = (error: ErrorAttr) => {
   return new MongoDuplicateError(
     Code.MONGO_DUPLICATE_ERROR,
     detail.substring(1, detail.length - 1),
-    true
+    false
   );
 };
 
@@ -44,10 +44,10 @@ const handleJwtError = (error: ErrorAttr) => {
   const detail = '로그인이 필요합니다.';
 
   if (error.name === 'JsonWebTokenError') {
-    return new JwtValidationError(Code.JWT_VALIDATION_ERROR, detail, true);
+    return new JwtValidationError(Code.JWT_VALIDATION_ERROR, detail, false);
   }
 
-  return new JwtExpirationError(Code.JWT_EXPIRATION_ERROR, detail, true);
+  return new JwtExpirationError(Code.JWT_EXPIRATION_ERROR, detail, false);
 };
 
 // TODO: 환경(e.g, 개발, 운영)에 따른 오류 처리가 필요한지 고민.
@@ -91,6 +91,7 @@ export const errorMiddleware = (
   } else if (error instanceof Error) {
     detail = error.message;
   } else {
+    /* 5. Error 인터페이스를 구현하지 않는 오류. */
     console.log(error);
   }
 

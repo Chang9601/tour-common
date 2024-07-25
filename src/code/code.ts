@@ -82,6 +82,21 @@ class Code {
     message: 'JWT 발급 후 비밀번호가 변경되었습니다.',
   };
 
+  public static readonly NATS_NOT_CONNECTED_ERROR: CodeAttr = {
+    code: 500,
+    message: 'NATS 클라이언트에 연결되지 않았습니다.',
+  };
+
+  public static readonly MULTER_UNINTIALIZED_ERROR: CodeAttr = {
+    code: 500,
+    message: 'Multer가 초기화되지 않았습니다.',
+  };
+
+  public static readonly MULTER_INVALID_MIMETYPE_ERROR: CodeAttr = {
+    code: 400,
+    message: '유효한 MIME 타입이 아닙니다.',
+  };
+
   public static toMessage: CodeToMessage = {
     [Code.BAD_REQUEST.code]: Code.BAD_REQUEST.message,
     [Code.UNAUTHORIZED.code]: Code.UNAUTHORIZED.message,
