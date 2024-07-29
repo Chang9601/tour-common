@@ -53,6 +53,7 @@ export * from './util/catch-async';
 export * from './util/cookie-util';
 export * from './util/email-util';
 export * from './util/field-filter';
+export * from './util/file-util';
 export * from './util/jwt-util';
 export * from './util/multer-instance';
 export * from './util/query-builder';

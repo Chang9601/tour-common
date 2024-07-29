@@ -4,6 +4,7 @@ import multer, { FileFilterCallback } from 'multer';
 import { Code } from '../code/code';
 import { MulterInvalidMimeTypeError } from '../error/multer/multer-invalid-mimetype.error';
 import { MulterUninitializedError } from '../error/multer/multer-unintialized.error';
+import { FileUtil } from './file-util';
 import { RequestWithUser } from '../type/auth-type';
 import { DestinationCallback, FilenameCallback } from '../type/multer-type';
 
@@ -24,12 +25,12 @@ class MulterInstance {
 
   public initialize(
     destination?: string,
-    filename?: string,
+    service?: string,
     mimetype: string = 'image'
   ): void {
     // TODO: setFileFilter() 메서드 생성하기.
     this._multer = multer({
-      storage: this.setStorage(destination, filename),
+      storage: this.setStorage(destination, service),
       fileFilter: (
         requset: Request,
         file: Express.Multer.File,
@@ -52,9 +53,9 @@ class MulterInstance {
 
   private setStorage(
     destination?: string,
-    filename?: string
+    service?: string
   ): multer.StorageEngine {
-    return destination && filename
+    return destination && service
       ? multer.diskStorage({
           destination: (
             request: Request,
@@ -68,11 +69,14 @@ class MulterInstance {
             file: Express.Multer.File,
             callback: FilenameCallback
           ) => {
-            const extension = file.mimetype.split('/')[1];
-            callback(
-              null,
-              `${filename}-${request.user!.id}-${Date.now()}.${extension}`
-            );
+            let filename;
+            if (service === 'user') {
+              filename = FileUtil.create(service, file, request.user!.id);
+            } else {
+              filename = FileUtil.create(service, file, request.params.id);
+            }
+
+            callback(null, filename);
           },
         })
       : multer.memoryStorage();
