@@ -1,8 +1,8 @@
-import { CodeAttr } from '../code/code';
+import { CodeAttribute } from '../code/code';
 
 export abstract class CoreError extends Error {
   constructor(
-    public readonly codeAttr: CodeAttr,
+    public readonly codeAttribute: CodeAttribute,
     public readonly detail: string | string[],
     /*
      * 운영 오류는 언젠가 발생할 것을 예측할 수 있는 문제들로 미리 처리해야 한다.
@@ -13,15 +13,14 @@ export abstract class CoreError extends Error {
      * 5. 요청 시간 초과.
      * 6. ...
      */
-    public readonly isOperational: boolean
+    public readonly isOperational?: boolean
   ) {
     super();
 
     this.name = this.constructor.name;
     // TODO: 사실상 전부 true.
-    //this.isOperational = true;
-
     // TODO: isOperational은 항상 true인데 어떻게?
+    this.isOperational = true;
 
     /* 새로운 객체가 생성되고 생성자 함수가 호출되면 함수 호출이 스택 트레이스에 나타나지 않는다. */
     Error.captureStackTrace(this, this.constructor);

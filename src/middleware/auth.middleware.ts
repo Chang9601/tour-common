@@ -10,9 +10,9 @@ import { UserNotFoundError } from '../error/user/user-not-found.error';
 import { User, UserDocument } from '../model/user.model';
 import { UserRepository } from '../repository/user.repository';
 import { RequestWithUser, UserPayload } from '../type/auth-type';
-import { Nullable } from '../type/nullish';
+import { Nullable } from '../type/nullish.type';
 import { catchAsync } from '../util/catch-async';
-import { JwtUtil } from '../util/jwt-util';
+import { JwtUtil } from '../util/jwt.util';
 
 const authenticationMiddleware = catchAsync(
   async (request: RequestWithUser, response: Response, next: NextFunction) => {

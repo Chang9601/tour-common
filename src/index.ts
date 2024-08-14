@@ -2,6 +2,7 @@ export * from './api/api-response';
 
 export * from './code/code';
 
+export * from './enum/booking-status.enum';
 export * from './enum/jwt-type.enum';
 export * from './enum/subject.enum';
 export * from './enum/user-role.enum';
@@ -46,14 +47,14 @@ export * from './type/core.schema';
 export * from './type/email-message';
 export * from './type/find-query';
 export * from './type/multer-type';
-export * from './type/nullish';
+export * from './type/nullish.type';
 export * from './type/query-request';
 
 export * from './util/catch-async';
 export * from './util/cookie-util';
 export * from './util/email-util';
 export * from './util/field-filter';
-export * from './util/file-util';
-export * from './util/jwt-util';
+export * from './util/file.util';
+export * from './util/jwt.util';
 export * from './util/multer-instance';
 export * from './util/query-builder';

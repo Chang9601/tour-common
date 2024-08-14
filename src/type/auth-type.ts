@@ -3,16 +3,14 @@ import { Types } from 'mongoose';
 
 import { UserRole } from '../enum/user-role.enum';
 
-type UserPayload = {
+export type UserPayload = {
   id: Types.ObjectId;
   userRole: UserRole;
 };
 
 // TODO: 옵션을 제거할 수 있는 개선법.
-type RequestWithUser = Request & { user?: UserPayload };
+export type RequestWithUser = Request & { user?: UserPayload };
 
-type JwtPayload = {
+export type JwtPayload = {
   id: Types.ObjectId;
 };
-
-export { UserPayload, RequestWithUser, JwtPayload };

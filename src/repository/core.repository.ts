@@ -2,7 +2,7 @@ import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 
 import { CoreDocument } from '../type/core.schema';
 import { FindQuery } from '../type/find-query';
-import { Nullable } from '../type/nullish';
+import { Nullable } from '../type/nullish.type';
 
 // TODO: 404 오류를 여기서 처리?
 export abstract class CoreRepository<TDocument extends CoreDocument> {

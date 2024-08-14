@@ -5,7 +5,7 @@ import validator from 'validator';
 import * as bcryptjs from 'bcryptjs';
 
 import { UserRole } from '../enum/user-role.enum';
-import { Optional } from '../type/nullish';
+import { Optional } from '../type/nullish.type';
 
 interface UserAttr {
   name: string;
@@ -69,12 +69,8 @@ const userSchema = new mongoose.Schema(
     photo: String,
     userRole: {
       type: String,
-      enum: [
-        UserRole.User,
-        UserRole.Contributor,
-        UserRole.Moderator,
-        UserRole.Admin,
-      ],
+      required: true,
+      enum: Object.values(UserRole),
       default: UserRole.User,
     },
     active: {

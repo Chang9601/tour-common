@@ -1,12 +1,12 @@
+import { CodeAttribute } from '../../code/code';
 import { CoreError } from '../core.error';
-import { CodeAttr } from '../../code/code';
 
 export class UserNotFoundError extends CoreError {
   constructor(
-    public readonly codeAttr: CodeAttr,
+    public readonly codeAttribute: CodeAttribute,
     public readonly detail: string | string[],
     public readonly isOperational: boolean
   ) {
-    super(codeAttr, detail, isOperational);
+    super(codeAttribute, detail, isOperational);
   }
 }

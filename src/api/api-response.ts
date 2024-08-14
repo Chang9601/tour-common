@@ -33,7 +33,6 @@ export class ApiResponse<TData> {
     data: TData,
     detail: string | string[]
   ): ApiResponse<TData> {
-    // TODO: 그냥 code: CodeAttr?
     const successCode = code || Code.OK.code;
     const successMessage = message || Code.OK.message;
 
@@ -43,8 +42,8 @@ export class ApiResponse<TData> {
   public static handleFailure<TData>(
     code: number,
     message: string,
-    detail: string | string[],
-    data: TData
+    data: TData,
+    detail: string | string[]
   ): ApiResponse<TData> {
     const failureCode = code || Code.INTERNAL_SERVER_ERROR.code;
     const failureMessage = message || Code.INTERNAL_SERVER_ERROR.message;
