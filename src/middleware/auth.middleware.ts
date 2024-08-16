@@ -2,6 +2,7 @@ import { NextFunction, Response } from 'express';
 import { Types } from 'mongoose';
 
 import { Code } from '../code/code';
+import { JwtType } from '../enum/jwt-type.enum';
 import { UserRole } from '../enum/user-role.enum';
 import { InvalidJwtAfterPasswordUpdateError } from '../error/user/invalid-jwt-after-password-update.error';
 import { UnauthenticatedUserError } from '../error/user/unauthenticated-user.error';
@@ -9,7 +10,7 @@ import { UnauthorizedUserError } from '../error/user/unauthorized-user.error';
 import { UserNotFoundError } from '../error/user/user-not-found.error';
 import { User, UserDocument } from '../model/user.model';
 import { UserRepository } from '../repository/user.repository';
-import { RequestWithUser, UserPayload } from '../type/auth-type';
+import { RequestWithUser, UserPayload } from '../type/auth.type';
 import { Nullable } from '../type/nullish.type';
 import { catchAsync } from '../util/catch-async';
 import { JwtUtil } from '../util/jwt.util';
@@ -33,20 +34,13 @@ const authenticationMiddleware = catchAsync(
 
     if (!jwt) {
       return next(
-        new UnauthenticatedUserError(
-          Code.UNAUTHORIZED,
-          '로그인이 필요합니다.',
-          true
-        )
+        new UnauthenticatedUserError(Code.UNAUTHORIZED, '로그인이 필요합니다.')
       );
     }
 
     /* 2. 토큰을 검증한다. */
     /* 콜백함수를 프로미스로 변형한다. */
-    const decoded = (await JwtUtil.verify(
-      jwt,
-      process.env.JWT_ACCESS_SECRET
-    )) as {
+    const decoded = (await JwtUtil.verify(jwt, JwtType.AccessToken)) as {
       id: Types.ObjectId;
       iat: number;
       exp: number;
@@ -62,11 +56,7 @@ const authenticationMiddleware = catchAsync(
       user = await repository.find({ _id: decoded.id });
       if (!user) {
         return next(
-          new UserNotFoundError(
-            Code.NOT_FOUND,
-            '사용자가 존재하지 않습니다.',
-            true
-          )
+          new UserNotFoundError(Code.NOT_FOUND, '사용자가 존재하지 않습니다.')
         );
       }
 
@@ -75,8 +65,7 @@ const authenticationMiddleware = catchAsync(
         return next(
           new InvalidJwtAfterPasswordUpdateError(
             Code.JWT_AFTER_PASSWORD_UPDATE_ERROR,
-            '로그인이 필요합니다.',
-            true
+            '로그인이 필요합니다.'
           )
         );
       }
@@ -106,8 +95,7 @@ const authorizationMiddleware = (...userRoles: UserRole[]) => {
       return next(
         new UnauthorizedUserError(
           Code.FORBIDDEN,
-          '작업을 수행할 권한이 없습니다.',
-          true
+          '작업을 수행할 권한이 없습니다.'
         )
       );
     }

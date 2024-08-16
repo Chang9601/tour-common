@@ -1,4 +1,4 @@
-import nats from 'node-nats-streaming';
+import * as nats from 'node-nats-streaming';
 
 import { Code } from '../code/code';
 import { NatsNotConnectedError } from '../error/nats/nats-not-connected.error';
@@ -11,7 +11,7 @@ class NatsInstance {
       throw new NatsNotConnectedError(
         Code.NATS_NOT_CONNECTED_ERROR,
         'NATS 클라이언트를 연결 전 접근할 수 없습니다.',
-        true
+        false
       );
     }
 

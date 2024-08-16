@@ -42,8 +42,8 @@ export class ApiResponse<TData> {
   public static handleFailure<TData>(
     code: number,
     message: string,
-    data: TData,
-    detail: string | string[]
+    detail: string | string[],
+    data: TData
   ): ApiResponse<TData> {
     const failureCode = code || Code.INTERNAL_SERVER_ERROR.code;
     const failureMessage = message || Code.INTERNAL_SERVER_ERROR.message;

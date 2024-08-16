@@ -69,13 +69,13 @@ export const errorMiddleware = (
   ) {
     const handledError = handleMongooseError(error);
 
-    code = handledError.codeAttr.code;
-    message = handledError.codeAttr.message;
+    code = handledError.codeAttribute.code;
+    message = handledError.codeAttribute.message;
     detail = handledError.detail;
     /* 2. 애플리케이션 오류. */
   } else if (error instanceof CoreError) {
-    code = error.codeAttr.code;
-    message = error.codeAttr.message;
+    code = error.codeAttribute.code;
+    message = error.codeAttribute.message;
     detail = error.detail;
     /* 3. JWT 오류. */
   } else if (
@@ -84,8 +84,8 @@ export const errorMiddleware = (
   ) {
     const handledError = handleJwtError(error);
 
-    code = handledError.codeAttr.code;
-    message = handledError.codeAttr.message;
+    code = handledError.codeAttribute.code;
+    message = handledError.codeAttribute.message;
     detail = handledError.detail;
     /* 4. 나머지 오류. */
   } else if (error instanceof Error) {

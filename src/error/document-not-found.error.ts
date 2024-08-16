@@ -4,9 +4,8 @@ import { CodeAttribute } from '../code/code';
 export class DocumentNotFoundError extends CoreError {
   constructor(
     public readonly codeAttribute: CodeAttribute,
-    public readonly detail: string | string[],
-    public readonly isOperational: boolean
+    public readonly detail: string | string[]
   ) {
-    super(codeAttribute, detail, isOperational);
+    super(codeAttribute, detail);
   }
 }

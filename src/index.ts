@@ -25,7 +25,7 @@ export * from './error/user/user-not-found.error';
 
 export * from './event/core-publisher';
 export * from './event/core-subscriber';
-export * from './event/nats-instance';
+export * from './singleton/nats-instance';
 export * from './event/review/review-created-event';
 
 export * from './interface/application.interface';
@@ -41,20 +41,21 @@ export * from './model/user.model';
 export * from './repository/core.repository';
 export * from './repository/user.repository';
 
+export * from './schema/core.schema';
+
 export * from './type/async-function';
-export * from './type/auth-type';
-export * from './type/core.schema';
+export * from './type/auth.type';
+export * from './schema/core.schema';
 export * from './type/email-message';
 export * from './type/find-query';
 export * from './type/multer-type';
 export * from './type/nullish.type';
 export * from './type/query-request';
 
-export * from './util/catch-async';
-export * from './util/cookie-util';
-export * from './util/email-util';
-export * from './util/field-filter';
+export * from './util/cookie.util';
+export * from './util/email.util';
 export * from './util/file.util';
 export * from './util/jwt.util';
-export * from './util/multer-instance';
+export * from './util/helper.util';
+export * from './singleton/multer-instance';
 export * from './util/query-builder';

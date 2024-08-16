@@ -1,8 +1,10 @@
 import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 
-import { CoreDocument } from '../type/core.schema';
+import { CoreDocument } from '../schema/core.schema';
 import { FindQuery } from '../type/find-query';
 import { Nullable } from '../type/nullish.type';
+import { DocumentNotFoundError } from 'error/document-not-found.error';
+import { Code } from 'code/code';
 
 // TODO: 404 오류를 여기서 처리?
 export abstract class CoreRepository<TDocument extends CoreDocument> {
@@ -24,6 +26,13 @@ export abstract class CoreRepository<TDocument extends CoreDocument> {
     filter: FilterQuery<TDocument>
   ): Promise<Nullable<TDocument>> {
     const document = await this.model.findOne(filter); //.lean<TDocument>(true);
+
+    if (!document) {
+      throw new DocumentNotFoundError(
+        Code.NOT_FOUND,
+        '도큐먼트가 존재하지 않습니다.'
+      );
+    }
 
     return document;
   }

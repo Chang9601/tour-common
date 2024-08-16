@@ -7,6 +7,6 @@ export class MongoIdError extends CoreError {
     public readonly detail: string | string[],
     public readonly isOperational: boolean
   ) {
-    super(codeAttribute, detail, isOperational);
+    super(codeAttribute, detail);
   }
 }

@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 
 import { JwtType } from '../enum/jwt-type.enum';
-import { JwtPayload } from '../type/auth-type';
+import { JwtPayload } from '../type/auth.type';
 import { JwtBundle } from '../type/jwt-bundle.type';
 
 export class JwtUtil {

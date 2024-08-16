@@ -4,9 +4,8 @@ import { CoreError } from '../core.error';
 export class InvalidJwtAfterPasswordUpdateError extends CoreError {
   constructor(
     public readonly codeAttribute: CodeAttribute,
-    public readonly detail: string | string[],
-    public readonly isOperational: boolean
+    public readonly detail: string | string[]
   ) {
-    super(codeAttribute, detail, isOperational);
+    super(codeAttribute, detail);
   }
 }

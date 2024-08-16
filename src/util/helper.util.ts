@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { AsyncFunction } from '../type/async-function';
+import { RequestWithUser } from '../type/auth.type';
 import { QueryRequest } from '../type/query-request';
-import { RequestWithUser } from '../type/auth-type';
 
 /*
  * catchAsync() 함수는 익명 함수를 반환하고 익명 함수는 경로 핸들러에 할당된다.
@@ -21,4 +21,18 @@ export const catchAsync = (fn: AsyncFunction) => {
     /* 콜백함수는 매개변수와 함께 자동으로 호출된다. */
     fn(request, response, next).catch(next); // (error) => next(error)
   };
+};
+
+export const sanitizeField = (data: any, ...allowedFields: string[]) => {
+  const result: {
+    [key: string]: any;
+  } = {};
+
+  Object.keys(data).forEach((field: string) => {
+    if (allowedFields.includes(field)) {
+      result[field] = data[field];
+    }
+  });
+
+  return result;
 };
