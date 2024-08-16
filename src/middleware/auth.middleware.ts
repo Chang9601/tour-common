@@ -12,7 +12,7 @@ import { User, UserDocument } from '../model/user.model';
 import { UserRepository } from '../repository/user.repository';
 import { RequestWithUser, UserPayload } from '../type/auth.type';
 import { Nullable } from '../type/nullish.type';
-import { catchAsync } from '../util/catch-async';
+import { catchAsync } from '../util/helper.util';
 import { JwtUtil } from '../util/jwt.util';
 
 const authenticationMiddleware = catchAsync(
