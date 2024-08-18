@@ -16,8 +16,9 @@ interface UserAttr {
 
 interface UserDocument extends mongoose.Document {
   _id: mongoose.Types.ObjectId;
-  name: string;
+  active: boolean;
   email: string;
+  name: string;
   password: string;
   passwordResetToken: Optional<string>;
   passwordResetTokenExpiration: Optional<Date>;
@@ -40,7 +41,6 @@ const userSchema = new mongoose.Schema(
     active: {
       type: Boolean,
       default: true,
-      select: false,
     },
     email: {
       type: String,
