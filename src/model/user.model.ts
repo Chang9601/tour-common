@@ -79,6 +79,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: 'none.jpg',
     },
+    resetToken: String,
     userRole: {
       type: String,
       required: true,
@@ -178,17 +179,17 @@ userSchema.methods.createPasswordResetToken = function (): string {
    * 즉, 공격자가 계정을 제어한다. 따라서, 비밀번호와 마찬가지로 비밀번호 재설정 토큰을 평문으로 데이터베이스에 저장해서는 안 된다.
    * 하지만 비밀번호와는 달리 매우 강력한 암호화 방법은 필요하지 않기에 내장 crypto 모듈을 사용한다.
    */
-  const token = crypto.randomBytes(32).toString('hex');
+  const passwordResetToken = crypto.randomBytes(32).toString('hex');
 
   this.passwordResetToken = crypto
     .createHash('sha256')
-    .update(token)
+    .update(passwordResetToken)
     .digest('hex');
 
   this.passwordResetTokenExpiration = new Date(Date.now() + 10 * 60 * 1000);
 
   /* 비밀번호처럼 암호문만 데이터베이스에 저장한다. */
-  return token;
+  return passwordResetToken;
 };
 
 const User = mongoose.model<UserDocument, UserModel>('User', userSchema);

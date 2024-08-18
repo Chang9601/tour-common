@@ -13,6 +13,7 @@ declare global {
       JWT_REFRESH_SECRET: string;
       JWT_REFRESH_EXPIRATION: string;
 
+      NODEMAILER_FROM: string;
       NODEMAILER_HOST: string;
       NODEMAILER_PORT: number;
       NODEMAILER_USER: string;

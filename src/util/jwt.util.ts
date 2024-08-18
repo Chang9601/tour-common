@@ -50,7 +50,7 @@ export class JwtUtil {
     });
   };
 
-  public static build = (
+  private static build = (
     payload: JwtPayload,
     secret: string,
     expiration: number | string
