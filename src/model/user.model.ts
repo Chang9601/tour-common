@@ -16,13 +16,12 @@ interface UserAttr {
 
 interface UserDocument extends mongoose.Document {
   _id: mongoose.Types.ObjectId;
-  active: boolean;
   email: string;
   name: string;
   password: string;
   passwordResetToken: Optional<string>;
   passwordResetTokenExpiration: Optional<Date>;
-  photo: Optional<string>;
+  photo: string;
   userRole: UserRole;
   matchPassword: (
     plainPassword: string,
@@ -41,6 +40,7 @@ const userSchema = new mongoose.Schema(
     active: {
       type: Boolean,
       default: true,
+      select: false,
     },
     email: {
       type: String,
@@ -75,7 +75,10 @@ const userSchema = new mongoose.Schema(
     passwordResetTokenExpiration: Date,
     // TODO: updatedAt 하나로 통일?
     passwordUpdatedAt: { type: Date, select: false },
-    photo: String,
+    photo: {
+      type: String,
+      default: 'none.jpg',
+    },
     userRole: {
       type: String,
       required: true,
@@ -134,7 +137,7 @@ userSchema.pre('save', function (next) {
   next();
 });
 
-userSchema.pre('find', function (next) {
+userSchema.pre(/^find/, function (this: UserModel, next) {
   /* 삭제(즉, 비활성화)된 사용자는 목록에서 제외한다. */
   this.find({ active: true });
 
