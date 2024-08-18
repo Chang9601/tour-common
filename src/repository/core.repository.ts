@@ -21,9 +21,7 @@ export abstract class CoreRepository<TDocument extends CoreDocument> {
     return filter ? this.model.find(filter) : this.model.find(); //.lean<TDocument[]>(true);
   }
 
-  public async find(
-    filter: FilterQuery<TDocument>
-  ): Promise<Nullable<TDocument>> {
+  public async find(filter: FilterQuery<TDocument>): Promise<TDocument> {
     const document = await this.model.findOne(filter); //.lean<TDocument>(true);
 
     if (!document) {
@@ -39,7 +37,7 @@ export abstract class CoreRepository<TDocument extends CoreDocument> {
   public async update(
     filter: FilterQuery<TDocument>,
     update: UpdateQuery<TDocument>
-  ): Promise<Nullable<TDocument>> {
+  ): Promise<TDocument> {
     const document = await this.model.findOneAndUpdate(filter, update, {
       new: true /* 갱신된 도큐먼트를 반환한다. */,
       runValidators: true /* 갱신마다 유효성을 확인한다. */,
@@ -56,9 +54,7 @@ export abstract class CoreRepository<TDocument extends CoreDocument> {
     return document;
   }
 
-  public async delete(
-    filter: FilterQuery<TDocument>
-  ): Promise<Nullable<TDocument>> {
+  public async delete(filter: FilterQuery<TDocument>): Promise<TDocument> {
     const document = await this.model.findOneAndDelete(filter);
     //.lean<TDocument>(true);
 

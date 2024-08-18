@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
+import { UserRole } from '../enum/user-role.enum';
 import { AsyncFunction } from '../type/async-function';
 import { RequestWithUser } from '../type/auth.type';
 import { QueryRequest } from '../type/query-request';
@@ -35,4 +36,17 @@ export const sanitizeField = (data: any, ...allowedFields: string[]) => {
   });
 
   return result;
+};
+
+export const mapRoleToEnum = (userRole: string) => {
+  switch (userRole.toUpperCase()) {
+    case 'USER':
+      return UserRole.User;
+    case 'GUIDE':
+      return UserRole.Guide;
+    case 'CONTRIBUTOR':
+      return UserRole.Contributor;
+    case 'ADMIN':
+      return UserRole.Admin;
+  }
 };

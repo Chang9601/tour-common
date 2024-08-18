@@ -25,7 +25,6 @@ export * from './error/user/user-not-found.error';
 
 export * from './event/core-publisher';
 export * from './event/core-subscriber';
-export * from './singleton/nats-instance';
 export * from './event/review/review-created-event';
 
 export * from './interface/application.interface';
@@ -42,6 +41,8 @@ export * from './repository/core.repository';
 export * from './repository/user.repository';
 
 export * from './schema/core.schema';
+export * from './singleton/multer-instance';
+export * from './singleton/nats-instance';
 
 export * from './type/async-function';
 export * from './type/auth.type';
@@ -57,5 +58,4 @@ export * from './util/email.util';
 export * from './util/file.util';
 export * from './util/jwt.util';
 export * from './util/helper.util';
-export * from './singleton/multer-instance';
 export * from './util/query-builder';
