@@ -29,7 +29,7 @@ const authenticationMiddleware = catchAsync(
 
     /* 1. 토큰을 추출한다. */
     if (request.cookies && request.cookies[JwtType.AccessToken]) {
-      jwt = request.cookies.AccessToken;
+      jwt = request.cookies[JwtType.AccessToken];
     }
 
     if (!jwt) {
