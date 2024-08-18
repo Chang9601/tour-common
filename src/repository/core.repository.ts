@@ -46,6 +46,13 @@ export abstract class CoreRepository<TDocument extends CoreDocument> {
     });
     //.lean<TDocument>();
 
+    if (!document) {
+      throw new DocumentNotFoundError(
+        Code.NOT_FOUND,
+        '도큐먼트가 존재하지 않습니다.'
+      );
+    }
+
     return document;
   }
 
@@ -54,6 +61,13 @@ export abstract class CoreRepository<TDocument extends CoreDocument> {
   ): Promise<Nullable<TDocument>> {
     const document = await this.model.findOneAndDelete(filter);
     //.lean<TDocument>(true);
+
+    if (!document) {
+      throw new DocumentNotFoundError(
+        Code.NOT_FOUND,
+        '도큐먼트가 존재하지 않습니다.'
+      );
+    }
 
     return document;
   }
