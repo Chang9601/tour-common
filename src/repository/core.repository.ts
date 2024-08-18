@@ -1,12 +1,11 @@
 import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 
+import { Code } from '../code/code';
+import { DocumentNotFoundError } from '../error/document-not-found.error';
 import { CoreDocument } from '../schema/core.schema';
 import { FindQuery } from '../type/find-query';
 import { Nullable } from '../type/nullish.type';
-import { DocumentNotFoundError } from 'error/document-not-found.error';
-import { Code } from 'code/code';
 
-// TODO: 404 오류를 여기서 처리?
 export abstract class CoreRepository<TDocument extends CoreDocument> {
   constructor(protected readonly model: Model<TDocument>) {}
 

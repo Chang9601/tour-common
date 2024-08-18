@@ -4,7 +4,8 @@ import { CoreError } from '../core.error';
 export class EmailSendError extends CoreError {
   constructor(
     public readonly codeAttribute: CodeAttribute,
-    public readonly detail: string | string[]
+    public readonly detail: string | string[],
+    public readonly isOperational: boolean
   ) {
     super(codeAttribute, detail);
   }
