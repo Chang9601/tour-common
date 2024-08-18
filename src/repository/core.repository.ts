@@ -3,7 +3,7 @@ import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 import { Code } from '../code/code';
 import { DocumentNotFoundError } from '../error/document-not-found.error';
 import { CoreDocument } from '../schema/core.schema';
-import { FindQuery } from '../type/find-query';
+import { FindQuery } from '../type/find-query.type';
 import { Nullable } from '../type/nullish.type';
 
 export abstract class CoreRepository<TDocument extends CoreDocument> {

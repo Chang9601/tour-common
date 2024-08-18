@@ -21,7 +21,7 @@ interface UserDocument extends mongoose.Document {
   password: string;
   passwordResetToken: Optional<string>;
   passwordResetTokenExpiration: Optional<Date>;
-  photo: string;
+  photo: Optional<string>;
   userRole: UserRole;
   matchPassword: (
     plainPassword: string,
@@ -37,11 +37,10 @@ interface UserModel extends mongoose.Model<UserDocument> {
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: [true, '이름이 있어야 합니다.'],
-      trim: true,
-      minlength: [2, '이름은 2자 이상입니다.'],
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
     },
     email: {
       type: String,
@@ -50,6 +49,12 @@ const userSchema = new mongoose.Schema(
       trim: true,
       lowercase: true /* 소문자로 변형한다. */,
       validate: [validator.isEmail, '잘못된 형식의 이메일입니다.'],
+    },
+    name: {
+      type: String,
+      required: [true, '이름이 있어야 합니다.'],
+      trim: true,
+      minlength: [2, '이름은 2자 이상입니다.'],
     },
     password: {
       type: String,
@@ -66,6 +71,10 @@ const userSchema = new mongoose.Schema(
       //select: false,
       validate: [validator.isStrongPassword, '잘못된 형식의 비밀번호입니다.'],
     },
+    passwordResetToken: String,
+    passwordResetTokenExpiration: Date,
+    // TODO: updatedAt 하나로 통일?
+    passwordUpdatedAt: { type: Date, select: false },
     photo: String,
     userRole: {
       type: String,
@@ -73,15 +82,6 @@ const userSchema = new mongoose.Schema(
       enum: Object.values(UserRole),
       default: UserRole.User,
     },
-    active: {
-      type: Boolean,
-      default: true,
-      select: false,
-    },
-    // TODO: updatedAt 하나로 통일?
-    passwordUpdatedAt: { type: Date, select: false },
-    passwordResetToken: String,
-    passwordResetTokenExpiration: Date,
     createdAt: {
       type: Date,
       default: Date.now(),

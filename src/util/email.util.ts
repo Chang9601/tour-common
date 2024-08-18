@@ -1,6 +1,6 @@
 import * as nodemailer from 'nodemailer';
 
-import { EmailMessage } from '../type/email-message';
+import { EmailMessage } from '../type/email-message.type';
 
 export class EmailUtil {
   public static send = async (

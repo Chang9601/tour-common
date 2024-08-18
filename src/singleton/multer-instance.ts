@@ -6,7 +6,10 @@ import { MulterInvalidMimeTypeError } from '../error/multer/multer-invalid-mimet
 import { MulterUninitializedError } from '../error/multer/multer-unintialized.error';
 import { FileUtil } from '../util/file.util';
 import { RequestWithUser } from '../type/auth.type';
-import { DestinationCallback, FilenameCallback } from '../type/multer-type';
+import {
+  DestinationCallback,
+  FilenameCallback,
+} from '../type/multer-callback.type';
 
 // TODO: skaffold에서 싱글톤 작동하는지 확인하기. 싱글톤이 아닌 Util 클래스로 수정하기.
 class MulterInstance {

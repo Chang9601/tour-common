@@ -44,18 +44,17 @@ export * from './schema/core.schema';
 export * from './singleton/multer-instance';
 export * from './singleton/nats-instance';
 
-export * from './type/async-function';
+export * from './type/async-function.type';
 export * from './type/auth.type';
-export * from './schema/core.schema';
-export * from './type/email-message';
-export * from './type/find-query';
-export * from './type/multer-type';
+export * from './type/email-message.type';
+export * from './type/find-query.type';
+export * from './type/multer-callback.type';
 export * from './type/nullish.type';
-export * from './type/query-request';
+export * from './type/query-request.type';
 
 export * from './util/cookie.util';
 export * from './util/email.util';
 export * from './util/file.util';
 export * from './util/jwt.util';
 export * from './util/helper.util';
-export * from './util/query-builder';
+export * from './util/query-builder.util';

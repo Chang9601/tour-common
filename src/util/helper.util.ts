@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 
 import { UserRole } from '../enum/user-role.enum';
-import { AsyncFunction } from '../type/async-function';
+import { AsyncFunction } from '../type/async-function.type';
 import { RequestWithUser } from '../type/auth.type';
-import { QueryRequest } from '../type/query-request';
+import { QueryRequest } from '../type/query-request.type';
 
 /*
  * catchAsync() 함수는 익명 함수를 반환하고 익명 함수는 경로 핸들러에 할당된다.
@@ -48,5 +48,7 @@ export const mapRoleToEnum = (userRole: string) => {
       return UserRole.Contributor;
     case 'ADMIN':
       return UserRole.Admin;
+    default:
+      return UserRole.User;
   }
 };

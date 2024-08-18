@@ -1,5 +1,5 @@
-import { RequestQuery } from '../type/query-request';
-import { FindQuery } from '../type/find-query';
+import { RequestQuery } from '../type/query-request.type';
+import { FindQuery } from '../type/find-query.type';
 
 export class QueryBuilder<TDocument> {
   public query: FindQuery<TDocument>;
