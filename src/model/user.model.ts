@@ -14,7 +14,7 @@ interface UserAttr {
   photo: string;
 }
 
-interface UserDocument extends mongoose.Document {
+export interface UserDocument extends mongoose.Document {
   _id: mongoose.Types.ObjectId;
   email: string;
   name: string;
@@ -31,7 +31,7 @@ interface UserDocument extends mongoose.Document {
   createPasswordResetToken: () => string;
 }
 
-interface UserModel extends mongoose.Model<UserDocument> {
+export interface UserModel extends mongoose.Model<UserDocument> {
   build(attrs: UserAttr): Promise<UserDocument>;
 }
 
@@ -192,6 +192,4 @@ userSchema.methods.createPasswordResetToken = function (): string {
   return passwordResetToken;
 };
 
-const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
-
-export { User, UserModel, UserDocument };
+export const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
