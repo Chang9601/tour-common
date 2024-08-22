@@ -52,8 +52,8 @@ const authenticationMiddleware = catchAsync(
       process.env.NODE_ENV == 'development' ||
       process.env.NODE_ENV == 'production'
     ) {
-      const repository = new UserRepository(User);
-      user = await repository.find({ _id: decoded.id });
+      // const repository = new UserRepository(User);
+      user = await User.findOne({ _id: decoded.id }); //  await repository.find({ _id: decoded.id });
       if (!user) {
         return next(
           new UserNotFoundError(Code.NOT_FOUND, '사용자가 존재하지 않습니다.')
