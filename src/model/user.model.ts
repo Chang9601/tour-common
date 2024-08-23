@@ -7,11 +7,13 @@ import * as bcryptjs from 'bcryptjs';
 import { UserRole } from '../enum/user-role.enum';
 import { Optional } from '../type/nullish.type';
 
-interface UserAttr {
-  name: string;
+interface UserAttribute {
   email: string;
+  name: string;
   password: string;
-  photo: string;
+  passwordConfirm: string;
+  photo?: string;
+  userRole?: string;
 }
 
 export interface UserDocument extends mongoose.Document {
@@ -146,7 +148,7 @@ userSchema.pre(/^find/, function (this: UserModel, next) {
 });
 
 /* statics는 모델에 정의된 메서드이다. */
-userSchema.statics.build = async function (attrs: UserAttr) {
+userSchema.statics.build = async function (attrs: UserAttribute) {
   return await User.create(attrs);
 };
 

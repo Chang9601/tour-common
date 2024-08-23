@@ -18,6 +18,8 @@ declare global {
       NODEMAILER_PORT: number;
       NODEMAILER_USER: string;
       NODEMAILER_PASS: string;
+
+      TEST_USER_ROLE: string;
     }
   }
 }

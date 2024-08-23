@@ -12,10 +12,10 @@ import { User, UserDocument } from '../model/user.model';
 import { UserRepository } from '../repository/user.repository';
 import { RequestWithUser, UserPayload } from '../type/auth.type';
 import { Nullable } from '../type/nullish.type';
-import { catchAsync } from '../util/helper.util';
+import { catchAsync, mapRoleToEnum } from '../util/helper.util';
 import { JwtUtil } from '../util/jwt.util';
 
-const authenticationMiddleware = catchAsync(
+export const authenticationMiddleware = catchAsync(
   async (request: RequestWithUser, response: Response, next: NextFunction) => {
     let jwt = null;
 
@@ -74,9 +74,10 @@ const authenticationMiddleware = catchAsync(
     /* 접근 제어되는 경로에 접근을 허락한다. */
     const userPayload: UserPayload = {
       id: process.env.NODE_ENV == 'test' ? decoded.id : user!._id,
-      // TODO: 역할은 어떻게?
       userRole:
-        process.env.NODE_ENV == 'test' ? UserRole.Admin : user!.userRole,
+        process.env.NODE_ENV == 'test'
+          ? mapRoleToEnum(process.env.TEST_USER_ROLE)
+          : user!.userRole,
     };
 
     request.user = userPayload;
@@ -89,7 +90,7 @@ const authenticationMiddleware = catchAsync(
  * 일반적으로 미들웨어 함수에 인자를 전달할 수 없다.
  * 따라서 포장 함수를 만들고 이 함수에서 미들웨어 함수를 반환한다.
  */
-const authorizationMiddleware = (...userRoles: UserRole[]) => {
+export const authorizationMiddleware = (...userRoles: UserRole[]) => {
   return (request: RequestWithUser, response: Response, next: NextFunction) => {
     if (!userRoles.includes(request.user!.userRole)) {
       return next(
@@ -103,5 +104,3 @@ const authorizationMiddleware = (...userRoles: UserRole[]) => {
     next();
   };
 };
-
-export { authenticationMiddleware, authorizationMiddleware };
