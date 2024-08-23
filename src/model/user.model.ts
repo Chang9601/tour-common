@@ -34,7 +34,7 @@ export interface UserDocument extends mongoose.Document {
 }
 
 export interface UserModel extends mongoose.Model<UserDocument> {
-  build(attrs: UserAttr): Promise<UserDocument>;
+  build(attrs: UserAttribute): Promise<UserDocument>;
 }
 
 const userSchema = new mongoose.Schema(
