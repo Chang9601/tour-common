@@ -53,7 +53,7 @@ export const authenticationMiddleware = catchAsync(
       process.env.NODE_ENV == 'production'
     ) {
       // const repository = new UserRepository(User);
-      user = await User.findOne({ _id: decoded.id }); //  await repository.find({ _id: decoded.id });
+      user = await User.findOne({ _id: decoded.id }); // await repository.find({ _id: decoded.id });
       if (!user) {
         return next(
           new UserNotFoundError(Code.NOT_FOUND, '사용자가 존재하지 않습니다.')
@@ -73,12 +73,14 @@ export const authenticationMiddleware = catchAsync(
 
     /* 접근 제어되는 경로에 접근을 허락한다. */
     const userPayload: UserPayload = {
-      id: process.env.NODE_ENV == 'test' ? decoded.id : user!._id,
+      id: process.env.NODE_ENV === 'test' ? decoded.id : user!._id,
       userRole:
-        process.env.NODE_ENV == 'test'
+        process.env.NODE_ENV === 'test'
           ? mapRoleToEnum(process.env.TEST_USER_ROLE)
           : user!.userRole,
     };
+
+    console.log(userPayload);
 
     request.user = userPayload;
 
