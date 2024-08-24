@@ -80,8 +80,6 @@ export const authenticationMiddleware = catchAsync(
           : user!.userRole,
     };
 
-    console.log(userPayload);
-
     request.user = userPayload;
 
     next();
