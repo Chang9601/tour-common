@@ -4,6 +4,7 @@ export * from './code/code';
 
 export * from './enum/booking-status.enum';
 export * from './enum/jwt-type.enum';
+export * from './enum/oauth2-provider.enum';
 export * from './enum/subject.enum';
 export * from './enum/user-role.enum';
 
@@ -39,6 +40,7 @@ export * from './interface/core-event.interface';
 
 export * from './middleware/auth.middleware';
 export * from './middleware/error.middleware';
+export * from './middleware/oauth2.middleware';
 export * from './middleware/validation.middleware';
 
 export * from './model/user.model';
