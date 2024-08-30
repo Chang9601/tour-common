@@ -17,7 +17,7 @@ export abstract class CorePublisher<TEvent extends CoreEvent> {
           return reject(error);
         }
 
-        console.log('다음 채널로 이벤트 발행', this.subject);
+        console.log('채널:', this.subject);
         resolve();
       });
     });
