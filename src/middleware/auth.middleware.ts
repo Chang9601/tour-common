@@ -13,7 +13,7 @@ import { RequestWithUser, UserPayload } from '../type/auth.type';
 import { Nullable } from '../type/nullish.type';
 import { catchAsync, mapRoleToEnum } from '../util/helper.util';
 import { JwtUtil } from '../util/jwt.util';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 export const authenticationMiddleware = catchAsync(
   async (request: RequestWithUser, response: Response, next: NextFunction) => {
@@ -47,6 +47,8 @@ export const authenticationMiddleware = catchAsync(
     };
 
     let user: Nullable<UserDocument>;
+    let currentUser: AxiosResponse<any, any>;
+
     /* 3. 사용자가 존재하는지 확인한다(테스트 환경에서 생략한다.). -> TODO: 코드 수정 */
     if (
       process.env.NODE_ENV === 'development' ||
@@ -55,14 +57,18 @@ export const authenticationMiddleware = catchAsync(
       // const repository = new UserRepository(User);
       // user = await User.findOne({ _id: decoded.id }); // await repository.find({ _id: decoded.id });
 
-      const response = await axios.get(
-        `http://tour.xyz/api/v1/users/current-user`,
-        { params: { id: decoded.id } }
-      );
+      try {
+        currentUser = await axios.get(
+          `http://tour.xyz/api/v1/users/current-user`,
+          { params: { id: decoded.id } }
+        );
 
-      console.log(`data: ${response.data}`);
+        console.log(`data: ${currentUser.data}`);
+      } catch (error) {
+        console.error(error);
+      }
 
-      user = response.data;
+      user = currentUser!.data;
 
       if (!user) {
         return next(
