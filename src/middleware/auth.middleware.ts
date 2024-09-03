@@ -56,7 +56,7 @@ export const authenticationMiddleware = catchAsync(
       // user = await User.findOne({ _id: decoded.id }); // await repository.find({ _id: decoded.id });
 
       const response = await axios.get(
-        `http://tour.xyz/api/v1/auth/users/current-user/${decoded.id}`
+        `http://tour.xyz/api/v1/users/current-user/${decoded.id}`
       );
 
       console.log(`data: ${response.data}`);
