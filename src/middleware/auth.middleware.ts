@@ -59,8 +59,7 @@ export const authenticationMiddleware = catchAsync(
 
       try {
         currentUser = await axios.get(
-          `http://auth:3000/api/v1/users/current-user`,
-          { params: { id: decoded.id } }
+          `http://auth:3000/api/v1/users/current-user/${decoded.id}`
         );
 
         console.log(`data: ${currentUser.data}`);
