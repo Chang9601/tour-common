@@ -59,7 +59,7 @@ export const authenticationMiddleware = catchAsync(
 
       try {
         currentUser = await axios.get(
-          `http://tour:3000/api/v1/users/current-user`,
+          `http://auth:3000/api/v1/users/current-user`,
           { params: { id: decoded.id } }
         );
 
