@@ -9,11 +9,11 @@ import { UnauthenticatedUserError } from '../error/user/unauthenticated-user.err
 import { UnauthorizedUserError } from '../error/user/unauthorized-user.error';
 import { UserNotFoundError } from '../error/user/user-not-found.error';
 import { User, UserDocument } from '../model/user.model';
-import { UserRepository } from '../repository/user.repository';
 import { RequestWithUser, UserPayload } from '../type/auth.type';
 import { Nullable } from '../type/nullish.type';
 import { catchAsync, mapRoleToEnum } from '../util/helper.util';
 import { JwtUtil } from '../util/jwt.util';
+import axios from 'axios';
 
 export const authenticationMiddleware = catchAsync(
   async (request: RequestWithUser, response: Response, next: NextFunction) => {
@@ -47,13 +47,22 @@ export const authenticationMiddleware = catchAsync(
     };
 
     let user: Nullable<UserDocument>;
-    /* 3. 사용자가 존재하는지 확인한다(테스트 환경에서 생략한다.). */
+    /* 3. 사용자가 존재하는지 확인한다(테스트 환경에서 생략한다.). -> TODO: 코드 수정 */
     if (
-      process.env.NODE_ENV == 'development' ||
-      process.env.NODE_ENV == 'production'
+      process.env.NODE_ENV === 'development' ||
+      process.env.NODE_ENV === 'production'
     ) {
       // const repository = new UserRepository(User);
-      user = await User.findOne({ _id: decoded.id }); // await repository.find({ _id: decoded.id });
+      // user = await User.findOne({ _id: decoded.id }); // await repository.find({ _id: decoded.id });
+
+      const response = await axios.get(
+        `http://tour.xyz/api/v1/auth/users/current-user/${decoded.id}`
+      );
+
+      console.log(`data: ${response.data}`);
+
+      user = response.data;
+
       if (!user) {
         return next(
           new UserNotFoundError(Code.NOT_FOUND, '사용자가 존재하지 않습니다.')

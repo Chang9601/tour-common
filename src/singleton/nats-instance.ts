@@ -23,7 +23,7 @@ class NatsInstance {
 
     return new Promise<void>((resolve, reject) => {
       this.client.on('connect', () => {
-        console.log('NATS 연결 완료.');
+        console.log('NATS에 연결되었습니다.');
         resolve();
       });
 

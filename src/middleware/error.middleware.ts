@@ -92,7 +92,7 @@ export const errorMiddleware = (
     detail = error.message;
   } else {
     /* 5. Error 인터페이스를 구현하지 않는 오류. */
-    console.log(error);
+    console.error(error);
   }
 
   return response
