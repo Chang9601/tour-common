@@ -4,7 +4,6 @@ import { Code } from '../code/code';
 import { DocumentNotFoundError } from '../error/document-not-found.error';
 import { CoreDocument } from '../schema/core.schema';
 import { FindQuery } from '../type/find-query.type';
-import { Nullable } from '../type/nullish.type';
 
 export abstract class CoreRepository<TDocument extends CoreDocument> {
   constructor(protected readonly model: Model<TDocument>) {}
