@@ -57,19 +57,12 @@ export const authenticationMiddleware = catchAsync(
       // const repository = new UserRepository(User);
       // user = await User.findOne({ _id: decoded.id }); // await repository.find({ _id: decoded.id });
 
-      try {
-        /* 외부 요청이 아니라 서비스간 요청이라서 서비스 URL을 사용한다. */
-        currentUser = await axios.get(
-          `http://auth:3000/api/v1/users/current-user/${decoded.id}`
-        );
-
-        console.log(currentUser.data.data);
-      } catch (error) {
-        console.error(error);
-      }
+      /* 외부 요청이 아니라 서비스간 요청이라서 서비스 URL을 사용한다. */
+      currentUser = await axios.get(
+        `http://auth:3000/api/v1/users/current-user/${decoded.id}`
+      );
 
       user = currentUser!.data.data;
-      console.log(user);
 
       if (!user) {
         return next(
@@ -90,7 +83,7 @@ export const authenticationMiddleware = catchAsync(
 
     /* 접근 제어되는 경로에 접근을 허락한다. */
     const userPayload: UserPayload = {
-      id: process.env.NODE_ENV === 'test' ? decoded.id : user!._id,
+      id: process.env.NODE_ENV === 'test' ? decoded.id : user!.id,
       userRole:
         process.env.NODE_ENV === 'test'
           ? mapRoleToEnum(process.env.TEST_USER_ROLE)
