@@ -63,12 +63,12 @@ export const authenticationMiddleware = catchAsync(
           `http://auth:3000/api/v1/users/current-user/${decoded.id}`
         );
 
-        console.log(currentUser.data);
+        console.log(currentUser.data.data);
       } catch (error) {
         console.error(error);
       }
 
-      user = currentUser!.data;
+      user = currentUser!.data.data;
 
       if (!user) {
         return next(
