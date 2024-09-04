@@ -68,11 +68,8 @@ export const authenticationMiddleware = catchAsync(
         console.error(error);
       }
 
-      const newUser = await User.create(currentUser!.data.data);
-
-      console.log(newUser);
-
       user = currentUser!.data.data;
+      console.log(user);
 
       if (!user) {
         return next(
