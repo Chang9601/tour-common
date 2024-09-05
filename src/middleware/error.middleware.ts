@@ -67,6 +67,8 @@ export const errorMiddleware = (
     error.name === 'ValidationError' ||
     error.code === 11000
   ) {
+    console.log(error);
+
     const handledError = handleMongooseError(error);
 
     code = handledError.codeAttribute.code;
