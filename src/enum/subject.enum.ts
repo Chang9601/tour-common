@@ -9,4 +9,5 @@ export enum Subject {
   ReviewDeleted = 'review:deleted',
 
   TourCancelled = 'tour:cancelled',
+  TourCreated = 'tour:created',
 }

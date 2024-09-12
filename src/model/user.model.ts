@@ -25,12 +25,12 @@ export interface UserDocument extends mongoose.Document {
   passwordResetTokenExpiration: Optional<Date>;
   photo: string;
   userRole: UserRole;
-  matchPassword: (
+  matchPassword(
     plainPassword: string,
     hashedPassword: string
-  ) => Promise<boolean>;
-  isPasswordUpdatedAfterJwtIssued: (jwtTimestamp: number) => boolean;
-  createPasswordResetToken: () => string;
+  ): Promise<boolean>;
+  isPasswordUpdatedAfterJwtIssued(jwtTimestamp: number): boolean;
+  createPasswordResetToken(): string;
 }
 
 export interface UserModel extends mongoose.Model<UserDocument> {

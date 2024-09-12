@@ -1,3 +1,4 @@
+import axios, { AxiosResponse } from 'axios';
 import { NextFunction, Response } from 'express';
 import { Types } from 'mongoose';
 
@@ -13,7 +14,6 @@ import { RequestWithUser, UserPayload } from '../type/auth.type';
 import { Nullable } from '../type/nullish.type';
 import { catchAsync, mapRoleToEnum } from '../util/helper.util';
 import { JwtUtil } from '../util/jwt.util';
-import axios, { AxiosResponse } from 'axios';
 
 export const authenticationMiddleware = catchAsync(
   async (request: RequestWithUser, response: Response, next: NextFunction) => {
@@ -71,14 +71,14 @@ export const authenticationMiddleware = catchAsync(
       }
 
       /* 4. 토큰 발행 후 비밀번호를 수정했는지 확인한다. */
-      // if (user.isPasswordUpdatedAfterJwtIssued(decoded.iat)) {
-      //   return next(
-      //     new InvalidJwtAfterPasswordUpdateError(
-      //       Code.JWT_AFTER_PASSWORD_UPDATE_ERROR,
-      //       '로그인이 필요합니다.'
-      //     )
-      //   );
-      // }
+      if (user.isPasswordUpdatedAfterJwtIssued(decoded.iat)) {
+        return next(
+          new InvalidJwtAfterPasswordUpdateError(
+            Code.JWT_AFTER_PASSWORD_UPDATE_ERROR,
+            '로그인이 필요합니다.'
+          )
+        );
+      }
     }
 
     /* 접근 제어되는 경로에 접근을 허락한다. */
