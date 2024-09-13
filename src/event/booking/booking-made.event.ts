@@ -8,7 +8,7 @@ export interface BookingMadeEvent extends CoreEvent {
   subject: Subject.BookingMade;
   data: {
     id: mongoose.Types.ObjectId;
-    expiration: number;
+    expiration: string;
     status: BookingStatus;
     tour: {
       id: mongoose.Types.ObjectId;
