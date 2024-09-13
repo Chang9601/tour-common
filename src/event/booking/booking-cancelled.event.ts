@@ -7,8 +7,9 @@ export interface BookingCancelledEvent extends CoreEvent {
   subject: Subject.BookingCancelled;
   data: {
     id: mongoose.Types.ObjectId;
-    tourId: mongoose.Types.ObjectId;
-    userId: mongoose.Types.ObjectId;
+    tour: {
+      id: mongoose.Types.ObjectId;
+    };
     sequence: number;
   };
 }
