@@ -1,5 +1,5 @@
 export enum Subject {
-  BookingConfirmed = 'booking:confirmed',
+  BookingMade = 'booking:made',
   BookingCancelled = 'booking:cancelled',
 
   PaymentCreated = 'payment:created',

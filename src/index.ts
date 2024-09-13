@@ -25,13 +25,14 @@ export * from './error/user/unauthorized-user.error';
 export * from './error/user/user-not-found.error';
 
 export * from './event/booking/booking-cancelled.event';
-export * from './event/booking/booking-confirmed.event';
+export * from './event/booking/booking-made.event';
 export * from './event/core.publisher';
 export * from './event/core.subscriber';
 export * from './event/payment/payment-created.event';
 export * from './event/review/review-created.event';
 export * from './event/review/review-updated.event';
 export * from './event/review/review-deleted.event';
+export * from './event/tour/tour-created.event';
 export * from './event/tour/tour-cancelled.event';
 
 export * from './interface/application.interface';
