@@ -7,7 +7,7 @@ export interface ReviewDeletedEvent extends CoreEvent {
   subject: Subject.ReviewDeleted;
   data: {
     id: mongoose.Types.ObjectId;
-    tourId: mongoose.Types.ObjectId;
+    tour: { id: mongoose.Types.ObjectId };
     sequence: number;
   };
 }

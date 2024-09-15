@@ -13,7 +13,10 @@ export interface ReviewCreatedEvent extends CoreEvent {
      */
     id: mongoose.Types.ObjectId;
     rating: number;
-    tourId: mongoose.Types.ObjectId;
+    tour: {
+      id: mongoose.Types.ObjectId;
+      name: string;
+    };
     sequence: number;
   };
 }
