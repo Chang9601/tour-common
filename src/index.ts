@@ -28,6 +28,7 @@ export * from './event/booking/booking-cancelled.event';
 export * from './event/booking/booking-made.event';
 export * from './event/core.publisher';
 export * from './event/core.subscriber';
+export * from './event/expiration/expiration-completed.event';
 export * from './event/payment/payment-created.event';
 export * from './event/review/review-created.event';
 export * from './event/review/review-updated.event';
