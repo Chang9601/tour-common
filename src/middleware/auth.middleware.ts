@@ -47,22 +47,19 @@ export const authenticationMiddleware = catchAsync(
     };
 
     let user: Nullable<UserDocument>;
-    let currentUser: AxiosResponse<any, any>;
+    let getCurrentUser: AxiosResponse<any, any>;
 
     /* 3. 사용자가 존재하는지 확인한다(테스트 환경에서 생략한다.). -> TODO: 코드 수정 */
     if (
       process.env.NODE_ENV === 'development' ||
       process.env.NODE_ENV === 'production'
     ) {
-      // const repository = new UserRepository(User);
-      // user = await User.findOne({ _id: decoded.id }); // await repository.find({ _id: decoded.id });
-
       /* 외부 요청이 아니라 서비스간 요청이라서 서비스 URL을 사용한다. */
-      currentUser = await axios.get(
+      getCurrentUser = await axios.get(
         `http://auth:3000/api/v1/users/current-user/${decoded.id}`
       );
 
-      user = currentUser!.data.data;
+      user = getCurrentUser!.data.data;
 
       if (!user) {
         return next(

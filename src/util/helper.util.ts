@@ -24,7 +24,25 @@ export const catchAsync = (fn: AsyncFunction) => {
   };
 };
 
-export const sanitizeField = (data: any, ...allowedFields: string[]) => {
+export const mapRoleToEnum = (userRole: string): UserRole => {
+  switch (userRole.toUpperCase()) {
+    case 'USER':
+      return UserRole.User;
+    case 'GUIDE':
+      return UserRole.Guide;
+    case 'CONTRIBUTOR':
+      return UserRole.Contributor;
+    case 'ADMIN':
+      return UserRole.Admin;
+    default:
+      return UserRole.User;
+  }
+};
+
+export const sanitizeField = (
+  data: any,
+  ...allowedFields: string[]
+): { [key: string]: any } => {
   const result: {
     [key: string]: any;
   } = {};
@@ -38,17 +56,9 @@ export const sanitizeField = (data: any, ...allowedFields: string[]) => {
   return result;
 };
 
-export const mapRoleToEnum = (userRole: string) => {
-  switch (userRole.toUpperCase()) {
-    case 'USER':
-      return UserRole.User;
-    case 'GUIDE':
-      return UserRole.Guide;
-    case 'CONTRIBUTOR':
-      return UserRole.Contributor;
-    case 'ADMIN':
-      return UserRole.Admin;
-    default:
-      return UserRole.User;
-  }
+export const isAllowedFileExtension = (filename: string): boolean => {
+  const allowedExtensions = ['jpg', 'jpeg', 'gif', 'png'];
+  const fileExtension = filename.split('.').pop()!;
+
+  return allowedExtensions.includes(fileExtension);
 };
