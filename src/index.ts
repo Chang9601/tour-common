@@ -11,6 +11,7 @@ export * from './enum/user-role.enum';
 export * from './error/core.error';
 export * from './error/document-not-found.error';
 export * from './error/email/email-send.error';
+export * from './error/file/not-allowed-file-extension.error';
 export * from './error/jwt/jwt-expiration.error';
 export * from './error/jwt/jwt-validation.error';
 export * from './error/mongodb/mongo-duplicate.error';
@@ -23,6 +24,7 @@ export * from './error/user/invalid-jwt-after-password-update.error';
 export * from './error/user/unauthenticated-user.error';
 export * from './error/user/unauthorized-user.error';
 export * from './error/user/user-not-found.error';
+export * from './error/page-not-found.error';
 
 export * from './event/booking/booking-cancelled.event';
 export * from './event/booking/booking-made.event';
