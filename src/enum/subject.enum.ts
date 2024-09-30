@@ -12,4 +12,7 @@ export enum Subject {
 
   TourCancelled = 'tour:cancelled',
   TourCreated = 'tour:created',
+
+  UserBanned = 'auth:banned',
+  UserUnbanned = 'auth:unbanned',
 }

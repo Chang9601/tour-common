@@ -5,6 +5,7 @@ import { UserRole } from '../enum/user-role.enum';
 
 export type UserPayload = {
   id: Types.ObjectId;
+  banned: boolean;
   userRole: UserRole;
 };
 

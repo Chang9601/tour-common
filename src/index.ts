@@ -37,6 +37,8 @@ export * from './event/review/review-updated.event';
 export * from './event/review/review-deleted.event';
 export * from './event/tour/tour-created.event';
 export * from './event/tour/tour-cancelled.event';
+export * from './event/auth/user-banned.event';
+export * from './event/auth/user-unbanned.event';
 
 export * from './interface/application.interface';
 export * from './interface/controller.interface';
@@ -50,9 +52,8 @@ export * from './middleware/validation.middleware';
 export * from './model/user.model';
 
 export * from './repository/core.repository';
-export * from './repository/user.repository';
 
-export * from './schema/core.schema';
+export * from './model/core.model';
 
 export * from './singleton/multer-instance';
 export * from './singleton/nats-instance';

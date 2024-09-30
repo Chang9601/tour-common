@@ -8,9 +8,9 @@ export interface CoreApplication {
   uri: string;
 
   listen(): void;
+  connectToDatabase(): Promise<void>;
+  connectToMessagingSystem(): Promise<void>;
   initializeMiddlewares(): void;
   initializeControllers(controllers: CoreController[]): void;
-  connectToMessagingSystem(): Promise<void>;
-  connectToDatabase(): Promise<void>;
   initializeErrorHandler(): void;
 }

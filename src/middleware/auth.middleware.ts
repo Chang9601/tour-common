@@ -9,7 +9,7 @@ import { InvalidJwtAfterPasswordUpdateError } from '../error/user/invalid-jwt-af
 import { UnauthenticatedUserError } from '../error/user/unauthenticated-user.error';
 import { UnauthorizedUserError } from '../error/user/unauthorized-user.error';
 import { UserNotFoundError } from '../error/user/user-not-found.error';
-import { User, UserDocument } from '../model/user.model';
+import { UserDocument } from '../model/user.model';
 import { RequestWithUser, UserPayload } from '../type/auth.type';
 import { Nullable } from '../type/nullish.type';
 import { catchAsync, mapRoleToEnum } from '../util/helper.util';
@@ -81,6 +81,7 @@ export const authenticationMiddleware = catchAsync(
     /* 접근 제어되는 경로에 접근을 허락한다. */
     const userPayload: UserPayload = {
       id: process.env.NODE_ENV === 'test' ? decoded.id : user!.id,
+      banned: process.env.NODE_ENV === 'test' ? false : user!.banned,
       userRole:
         process.env.NODE_ENV === 'test'
           ? mapRoleToEnum(process.env.TEST_USER_ROLE)

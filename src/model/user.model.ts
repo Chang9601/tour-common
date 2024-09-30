@@ -4,6 +4,7 @@ import { UserRole } from '../enum/user-role.enum';
 
 export interface UserDocument extends mongoose.Document {
   _id: mongoose.Types.ObjectId;
+  banned: boolean;
   userRole: UserRole;
   isPasswordUpdatedAfterJwtIssued(jwtTimestamp: number): boolean;
 }
@@ -12,6 +13,10 @@ export interface UserModel extends mongoose.Model<UserDocument> {}
 
 const userSchema = new mongoose.Schema({
   passwordUpdatedAt: { type: Date, select: false },
+  banned: {
+    type: Boolean,
+    default: false,
+  },
   userRole: {
     type: String,
     required: true,
