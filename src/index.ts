@@ -20,7 +20,6 @@ export * from './error/mongodb/mongo-validation.error';
 export * from './error/multer/multer-unintialized.error';
 export * from './error/multer/multer-invalid-mimetype.error';
 export * from './error/nats/nats-not-connected.error';
-export * from './error/user/invalid-jwt-after-password-update.error';
 export * from './error/user/unauthenticated-user.error';
 export * from './error/user/unauthorized-user.error';
 export * from './error/user/user-not-found.error';

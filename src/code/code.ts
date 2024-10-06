@@ -6,6 +6,7 @@ export type CodeAttribute = {
 type CodeToMessage = Record<number, string>;
 type MessageToCode = Record<string, number>;
 
+// OK
 export class Code {
   public static readonly OK: CodeAttribute = {
     code: 200,

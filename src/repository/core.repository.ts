@@ -17,11 +17,11 @@ export abstract class CoreRepository<TDocument extends CoreDocument> {
      * lean() 메서드를 호출하면 toJSON() 메서드와 toObject() 메서드가 적용되지 않는다.
      * lean() 메서드를 적용하면 쿼리의 반환값은 Mongoose 도큐먼트가 아니라 일반 JavaScript 객체이다.
      */
-    return filter ? this.model.find(filter) : this.model.find(); //.lean<TDocument[]>(true);
+    return filter ? this.model.find(filter) : this.model.find();
   }
 
   public async find(filter: FilterQuery<TDocument>): Promise<TDocument> {
-    const document = await this.model.findOne(filter); //.lean<TDocument>(true);
+    const document = await this.model.findOne(filter);
 
     if (!document) {
       throw new DocumentNotFoundError(
@@ -39,9 +39,8 @@ export abstract class CoreRepository<TDocument extends CoreDocument> {
   ): Promise<TDocument> {
     const document = await this.model.findOneAndUpdate(filter, update, {
       new: true /* 갱신된 도큐먼트를 반환한다. */,
-      runValidators: true /* 갱신마다 유효성을 확인한다. */,
+      runValidators: true /* 수정마다 유효성을 확인한다. */,
     });
-    //.lean<TDocument>();
 
     if (!document) {
       throw new DocumentNotFoundError(
@@ -55,7 +54,6 @@ export abstract class CoreRepository<TDocument extends CoreDocument> {
 
   public async delete(filter: FilterQuery<TDocument>): Promise<TDocument> {
     const document = await this.model.findOneAndDelete(filter);
-    //.lean<TDocument>(true);
 
     if (!document) {
       throw new DocumentNotFoundError(

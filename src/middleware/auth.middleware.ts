@@ -1,11 +1,11 @@
 import axios, { AxiosResponse } from 'axios';
 import { NextFunction, Response } from 'express';
+import Redis from 'ioredis';
 import { Types } from 'mongoose';
 
 import { Code } from '../code/code';
 import { JwtType } from '../enum/jwt-type.enum';
 import { UserRole } from '../enum/user-role.enum';
-import { InvalidJwtAfterPasswordUpdateError } from '../error/user/invalid-jwt-after-password-update.error';
 import { UnauthenticatedUserError } from '../error/user/unauthenticated-user.error';
 import { UnauthorizedUserError } from '../error/user/unauthorized-user.error';
 import { UserNotFoundError } from '../error/user/user-not-found.error';
@@ -15,8 +15,91 @@ import { Nullable } from '../type/nullish.type';
 import { catchAsync, mapRoleToEnum } from '../util/helper.util';
 import { JwtUtil } from '../util/jwt.util';
 
-export const authenticationMiddleware = catchAsync(
-  async (request: RequestWithUser, response: Response, next: NextFunction) => {
+// export const authenticationMiddleware = catchAsync(
+//   async (request: RequestWithUser, response: Response, next: NextFunction) => {
+//     let jwt = null;
+
+//     /* Authorinzation 헤더의 Beaer 토큰을 사용하는 경우. */
+//     // if (
+//     //   request.headers.authorization &&
+//     //   request.headers.authorization.startsWith('Bearer')
+//     // ) {
+//     //   token = request.headers.authorization.split(' ')[1];
+//     // }
+
+//     /* 1. 토큰을 추출한다. */
+//     if (request.cookies && request.cookies[JwtType.AccessToken]) {
+//       jwt = request.cookies[JwtType.AccessToken];
+//     }
+
+//     if (!jwt) {
+//       return next(
+//         new UnauthenticatedUserError(Code.UNAUTHORIZED, '로그인이 필요합니다.')
+//       );
+//     }
+
+//     /* 2. 토큰을 검증한다. */
+//     /* 콜백함수를 프로미스로 변형한다. */
+//     const decoded = (await JwtUtil.verify(jwt, JwtType.AccessToken)) as {
+//       id: Types.ObjectId;
+//       iat: number;
+//       exp: number;
+//     };
+
+//     let user: Nullable<UserDocument>;
+//     let getCurrentUser: AxiosResponse<any, any>;
+
+//     /* 3. 사용자가 존재하는지 확인한다(테스트 환경에서 생략한다.). -> TODO: 코드 수정 */
+//     if (
+//       process.env.NODE_ENV === 'development' ||
+//       process.env.NODE_ENV === 'production'
+//     ) {
+//       /* 외부 요청이 아니라 서비스간 요청이라서 서비스 URL을 사용한다. */
+//       getCurrentUser = await axios.get(
+//         `http://auth:3000/api/v1/users/current-user/${decoded.id}`
+//       );
+
+//       user = getCurrentUser!.data.data;
+
+//       if (!user) {
+//         return next(
+//           new UserNotFoundError(Code.NOT_FOUND, '사용자가 존재하지 않습니다.')
+//         );
+//       }
+
+//       /* 4. 토큰 발행 후 비밀번호를 수정했는지 확인한다. */
+//       // if (user.isPasswordUpdatedAfterJwtIssued(decoded.iat)) {
+//       //   return next(
+//       //     new InvalidJwtAfterPasswordUpdateError(
+//       //       Code.JWT_AFTER_PASSWORD_UPDATE_ERROR,
+//       //       '로그인이 필요합니다.'
+//       //     )
+//       //   );
+//       // }
+//     }
+
+//     /* 접근 제어되는 경로에 접근을 허락한다. */
+//     const userPayload: UserPayload = {
+//       id: process.env.NODE_ENV === 'test' ? decoded.id : user!.id,
+//       banned: process.env.NODE_ENV === 'test' ? false : user!.banned,
+//       userRole:
+//         process.env.NODE_ENV === 'test'
+//           ? mapRoleToEnum(process.env.TEST_USER_ROLE)
+//           : user!.userRole,
+//     };
+
+//     request.user = userPayload;
+
+//     next();
+//   }
+// );
+
+export const authenticationMiddleware = (redis: Redis) => {
+  return async (
+    request: RequestWithUser,
+    response: Response,
+    next: NextFunction
+  ) => {
     let jwt = null;
 
     /* Authorinzation 헤더의 Beaer 토큰을 사용하는 경우. */
@@ -48,23 +131,38 @@ export const authenticationMiddleware = catchAsync(
 
     let user: Nullable<UserDocument>;
     let getCurrentUser: AxiosResponse<any, any>;
+    let cachedUser: Record<any, any>;
 
     /* 3. 사용자가 존재하는지 확인한다(테스트 환경에서 생략한다.). -> TODO: 코드 수정 */
     if (
       process.env.NODE_ENV === 'development' ||
       process.env.NODE_ENV === 'production'
     ) {
-      /* 외부 요청이 아니라 서비스간 요청이라서 서비스 URL을 사용한다. */
-      getCurrentUser = await axios.get(
-        `http://auth:3000/api/v1/users/current-user/${decoded.id}`
-      );
+      cachedUser = await redis.hgetall(`users:${decoded.id}`);
 
-      user = getCurrentUser!.data.data;
-
-      if (!user) {
-        return next(
-          new UserNotFoundError(Code.NOT_FOUND, '사용자가 존재하지 않습니다.')
+      if (!cachedUser || Object.keys(cachedUser).length === 0) {
+        getCurrentUser = await axios.get(
+          `http://auth:3000/api/v1/users/current-user/${decoded.id}`
         );
+
+        user = getCurrentUser!.data.data;
+
+        if (!user) {
+          return next(
+            new UserNotFoundError(Code.NOT_FOUND, '사용자가 존재하지 않습니다.')
+          );
+        }
+
+        cachedUser = {
+          id: user._id,
+          banned: user.banned,
+          userRole: user.userRole,
+        };
+
+        const key = `users:${cachedUser.id}`;
+
+        await redis.hmset(key, cachedUser);
+        await redis.expire(key, 86400);
       }
 
       /* 4. 토큰 발행 후 비밀번호를 수정했는지 확인한다. */
@@ -80,19 +178,19 @@ export const authenticationMiddleware = catchAsync(
 
     /* 접근 제어되는 경로에 접근을 허락한다. */
     const userPayload: UserPayload = {
-      id: process.env.NODE_ENV === 'test' ? decoded.id : user!.id,
-      banned: process.env.NODE_ENV === 'test' ? false : user!.banned,
+      id: process.env.NODE_ENV === 'test' ? decoded.id : cachedUser!.id,
+      banned: process.env.NODE_ENV === 'test' ? false : cachedUser!.banned,
       userRole:
         process.env.NODE_ENV === 'test'
           ? mapRoleToEnum(process.env.TEST_USER_ROLE)
-          : user!.userRole,
+          : cachedUser!.userRole,
     };
 
     request.user = userPayload;
 
     next();
-  }
-);
+  };
+};
 
 /*
  * 일반적으로 미들웨어 함수에 인자를 전달할 수 없다.

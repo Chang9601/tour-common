@@ -1,6 +1,6 @@
 import { Code } from '../code/code';
 
-export type Metadata = {
+type Metadata = {
   code: number;
   message: string;
   timestamp: number;

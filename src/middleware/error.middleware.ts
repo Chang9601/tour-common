@@ -11,13 +11,13 @@ import { MongoDuplicateError } from '../error/mongodb/mongo-duplicate.error';
 import { MongoIdError } from '../error/mongodb/mongo-id.error';
 import { MongoValidationError } from '../error/mongodb/mongo-validation.error';
 
-interface ErrorAttr {
+interface ErrorAttribute {
   name: string;
   code: number;
   errmsg: string;
 }
 
-const handleMongooseError = (error: ErrorAttr) => {
+const handleMongooseError = (error: ErrorAttribute) => {
   if (error instanceof MongooseError.CastError) {
     const detail = error.value;
 
@@ -40,7 +40,7 @@ const handleMongooseError = (error: ErrorAttr) => {
   );
 };
 
-const handleJwtError = (error: ErrorAttr) => {
+const handleJwtError = (error: ErrorAttribute) => {
   const detail = '로그인이 필요합니다.';
 
   if (error.name === 'JsonWebTokenError') {
@@ -52,7 +52,7 @@ const handleJwtError = (error: ErrorAttr) => {
 
 // TODO: 환경(e.g, 개발, 운영)에 따른 오류 처리가 필요한지 고민.
 export const errorMiddleware = (
-  error: ErrorAttr,
+  error: ErrorAttribute,
   request: Request,
   response: Response,
   next: NextFunction

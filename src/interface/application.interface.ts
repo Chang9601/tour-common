@@ -7,10 +7,10 @@ export interface CoreApplication {
   port: number;
   uri: string;
 
-  listen(): void;
   connectToDatabase(): Promise<void>;
   connectToMessagingSystem(): Promise<void>;
   initializeMiddlewares(): void;
   initializeControllers(controllers: CoreController[]): void;
   initializeErrorHandler(): void;
+  listen(): void;
 }
