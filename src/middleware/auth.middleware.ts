@@ -98,6 +98,7 @@ import { JwtUtil } from '../util/jwt.util';
 //   }
 // );
 
+// TODO: cachedUser 타입 수정
 export const authenticationMiddleware = (redis: Redis) => {
   return catchAsync(
     async (
@@ -139,7 +140,7 @@ export const authenticationMiddleware = (redis: Redis) => {
 
       let user: Nullable<UserDocument>;
       let getCurrentUser: AxiosResponse<any, any>;
-      let cachedUser: Partial<UserDocument>;
+      let cachedUser: Record<any, any>;
 
       /* 3. 사용자가 존재하는지 확인한다(테스트 환경에서 생략한다.). -> TODO: 코드 수정 */
       if (
@@ -190,11 +191,12 @@ export const authenticationMiddleware = (redis: Redis) => {
       /* 접근 제어되는 경로에 접근을 허락한다. */
       const userPayload: UserPayload = {
         id: process.env.NODE_ENV === 'test' ? decoded.id : cachedUser!.id,
-        banned: process.env.NODE_ENV === 'test' ? false : cachedUser!.banned!,
+        banned:
+          process.env.NODE_ENV === 'test' ? false : Boolean(cachedUser!.banned),
         userRole:
           process.env.NODE_ENV === 'test'
             ? mapRoleToEnum(process.env.TEST_USER_ROLE)
-            : cachedUser!.userRole!,
+            : mapRoleToEnum(cachedUser!.userRole),
       };
 
       request.user = userPayload;
