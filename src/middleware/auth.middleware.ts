@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { NextFunction, Response } from 'express';
-import Redis from 'ioredis';
+import { Redis } from 'ioredis';
 import { Types } from 'mongoose';
 
 import { Code } from '../code/code';
@@ -140,24 +140,30 @@ export const authenticationMiddleware = (redis: Redis) => {
     ) {
       cachedUser = await redis.hgetall(`users:${decoded.id}`);
 
+      console.log(cachedUser);
+
       if (!cachedUser || Object.keys(cachedUser).length === 0) {
         getCurrentUser = await axios.get(
           `http://auth:3000/api/v1/users/current-user/${decoded.id}`
         );
 
-        user = getCurrentUser!.data.data;
-
-        if (!user) {
+        if (getCurrentUser.status === Code.NOT_FOUND.code) {
           return next(
             new UserNotFoundError(Code.NOT_FOUND, '사용자가 존재하지 않습니다.')
           );
         }
 
+        user = getCurrentUser!.data.data;
+
+        console.log(user);
+
         cachedUser = {
-          id: user._id,
-          banned: user.banned,
-          userRole: user.userRole,
+          id: user!.id,
+          banned: user!.banned,
+          userRole: user!.userRole,
         };
+
+        console.log(cachedUser);
 
         const key = `users:${cachedUser.id}`;
 
