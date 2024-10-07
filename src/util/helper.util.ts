@@ -25,7 +25,7 @@ export const catchAsync = (fn: AsyncFunction) => {
   };
 };
 
-export const mapRoleToEnum = (userRole: string): UserRole => {
+export const mapStringToUserRole = (userRole: string): UserRole => {
   switch (userRole.toUpperCase()) {
     case 'USER':
       return UserRole.User;
@@ -37,6 +37,17 @@ export const mapRoleToEnum = (userRole: string): UserRole => {
       return UserRole.Admin;
     default:
       return UserRole.User;
+  }
+};
+
+export const mapStringToBoolean = (value: string): boolean => {
+  switch (value.toLowerCase()) {
+    case 'true':
+      return true;
+    case 'false':
+      return false;
+    default:
+      return false;
   }
 };
 

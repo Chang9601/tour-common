@@ -15,7 +15,8 @@ import { Nullable } from '../type/nullish.type';
 import {
   catchAsync,
   generateUsersKey,
-  mapRoleToEnum,
+  mapStringToBoolean,
+  mapStringToUserRole,
 } from '../util/helper.util';
 import { JwtUtil } from '../util/jwt.util';
 
@@ -192,11 +193,13 @@ export const authenticationMiddleware = (redis: Redis) => {
       const userPayload: UserPayload = {
         id: process.env.NODE_ENV === 'test' ? decoded.id : cachedUser!.id,
         banned:
-          process.env.NODE_ENV === 'test' ? false : Boolean(cachedUser!.banned),
+          process.env.NODE_ENV === 'test'
+            ? false
+            : mapStringToBoolean(cachedUser!.banned),
         userRole:
           process.env.NODE_ENV === 'test'
-            ? mapRoleToEnum(process.env.TEST_USER_ROLE)
-            : mapRoleToEnum(cachedUser!.userRole),
+            ? mapStringToUserRole(process.env.TEST_USER_ROLE)
+            : mapStringToUserRole(cachedUser!.userRole),
       };
 
       request.user = userPayload;
