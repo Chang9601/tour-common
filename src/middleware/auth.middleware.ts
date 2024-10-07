@@ -15,7 +15,7 @@ import { Nullable } from '../type/nullish.type';
 import { catchAsync, mapRoleToEnum } from '../util/helper.util';
 import { JwtUtil } from '../util/jwt.util';
 
-// export const authenticationMiddleware = catchAsync(
+// export const authenticatisonMiddleware = catchAsync(
 //   async (request: RequestWithUser, response: Response, next: NextFunction) => {
 //     let jwt = null;
 
@@ -140,8 +140,6 @@ export const authenticationMiddleware = (redis: Redis) => {
     ) {
       cachedUser = await redis.hgetall(`users:${decoded.id}`);
 
-      console.log(cachedUser);
-
       if (!cachedUser || Object.keys(cachedUser).length === 0) {
         getCurrentUser = await axios.get(
           `http://auth:3000/api/v1/users/current-user/${decoded.id}`
@@ -155,15 +153,11 @@ export const authenticationMiddleware = (redis: Redis) => {
 
         user = getCurrentUser!.data.data;
 
-        console.log(user);
-
         cachedUser = {
           id: user!.id,
           banned: user!.banned,
           userRole: user!.userRole,
         };
-
-        console.log(cachedUser);
 
         const key = `users:${cachedUser.id}`;
 
@@ -184,12 +178,12 @@ export const authenticationMiddleware = (redis: Redis) => {
 
     /* 접근 제어되는 경로에 접근을 허락한다. */
     const userPayload: UserPayload = {
-      id: process.env.NODE_ENV === 'test' ? decoded.id : cachedUser!.id,
-      banned: process.env.NODE_ENV === 'test' ? false : cachedUser!.banned,
+      id: process.env.NODE_ENV === 'test' ? decoded.id : user!.id,
+      banned: process.env.NODE_ENV === 'test' ? false : user!.banned,
       userRole:
         process.env.NODE_ENV === 'test'
           ? mapRoleToEnum(process.env.TEST_USER_ROLE)
-          : cachedUser!.userRole,
+          : user!.userRole,
     };
 
     request.user = userPayload;

@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import mongoose from 'mongoose';
 
 import { UserRole } from '../enum/user-role.enum';
 import { AsyncFunction } from '../type/async-function.type';
@@ -62,3 +63,5 @@ export const isAllowedFileExtension = (filename: string): boolean => {
 
   return allowedExtensions.includes(fileExtension);
 };
+
+export const generateUsersKey = (id: mongoose.Types.ObjectId) => `users:${id}`;
