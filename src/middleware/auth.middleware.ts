@@ -20,6 +20,7 @@ import {
 import { JwtUtil } from '../util/jwt.util';
 import { RedisUtil } from '../util/redis.util';
 import { CookieUtil } from '../util/cookie.util';
+import { RedisType } from 'enum/redis-tye.enum';
 //import { cacheUser, findCachedUser } from '../util/redis.util';
 
 // TODO: cachedUser 타입 수정.
@@ -90,9 +91,17 @@ export const authenticationMiddleware = (redis: Redis) => {
         process.env.NODE_ENV === 'development' ||
         process.env.NODE_ENV === 'production'
       ) {
-        cachedUser = await redis.hgetall(`users:${decoded.id}`);
+        cachedUser = await RedisUtil.findUser(decoded.id, redis);
 
-        if (!RedisUtil.isCached(cachedUser)) {
+        //await redis.hgetall(`users:${decoded.id}`);
+
+        const isCached = await RedisUtil.isCached(
+          decoded.id,
+          RedisType.User,
+          redis
+        );
+
+        if (isCached === 0) {
           getCurrentUser = await axios.get(
             `http://auth:3000/api/v1/users/current-user/${decoded.id}`
           );

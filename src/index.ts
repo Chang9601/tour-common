@@ -77,5 +77,6 @@ export * from './util/email.util';
 export * from './util/file.util';
 export * from './util/helper.util';
 export * from './util/jwt.util';
+export * from './util/oauth2.util';
 export * from './util/query-builder.util';
 export * from './util/redis.util';
