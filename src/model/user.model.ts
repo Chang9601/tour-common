@@ -28,19 +28,6 @@ const userSchema = new mongoose.Schema({
     enum: Object.values(UserRole),
     default: UserRole.User,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-    select: false,
-  },
-  updatedAt: {
-    type: Date,
-    select: false,
-  },
-  deletedAt: {
-    type: Date,
-    select: false,
-  },
 });
 
 userSchema.methods.isPasswordUpdatedAfterJwtIssued = function (

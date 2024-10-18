@@ -1,7 +1,7 @@
 import { CodeAttribute } from '../../code/code';
 import { CoreError } from '../core.error';
 
-export class MongoDuplicateError extends CoreError {
+export class OAuth2TokensError extends CoreError {
   constructor(
     public readonly codeAttribute: CodeAttribute,
     public readonly detail: string | string[]

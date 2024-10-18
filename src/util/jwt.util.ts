@@ -3,6 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import { JwtType } from '../enum/jwt-type.enum';
 import { JwtPayload } from '../type/auth.type';
 import { JwtBundle } from '../type/jwt-bundle.type';
+import { JwtDecoded } from '../type/jwt-decoded.type';
 
 export class JwtUtil {
   private static readonly ACCESS_TOKEN_EXPIRATION = '1h';
@@ -20,28 +21,43 @@ export class JwtUtil {
     return process.env.JWT_REFRESH_SECRET;
   }
 
-  public static issue = (payload: JwtPayload): JwtBundle => {
+  public static issue(payload: JwtPayload, email: string): JwtBundle {
     return {
       accessToken: this.build(
         payload,
+        email,
         this.ACCESS_TOKEN_SECRET,
         this.ACCESS_TOKEN_EXPIRATION
       ),
       refreshToken: this.build(
         payload,
+        email,
         this.REFRESH_TOKEN_SECRET,
         this.REFRESH_TOKEN_EXPIRATION
       ),
     };
-  };
+  }
 
-  // TODO: 새로고침 토큰 기준 재발급 메서드.
-  public static reissue = (refreshToken: string) => {};
+  public static async reissue(refreshToken: string) {
+    const decoded = (await this.verify(
+      refreshToken,
+      JwtType.RefreshToken
+    )) as JwtDecoded;
 
-  public static verify = (
-    token: string,
-    tokenType: JwtType
-  ): Promise<unknown> => {
+    const payload: JwtPayload = {
+      id: decoded.id,
+    };
+
+    /* TODO
+     * 로그인 시 이벤트로 각 서비스의 Redis에 새로고침 토큰 저장
+     * 로그아웃 시 이벤트로 각 서비스의 Redis에 새로고침 토큰 삭제
+     * 뭔가 비효율적
+     */
+
+    return this.issue(payload, decoded.sub);
+  }
+
+  public static verify(token: string, tokenType: JwtType): Promise<unknown> {
     return new Promise((resolve, reject) => {
       jwt.verify(
         token,
@@ -58,15 +74,17 @@ export class JwtUtil {
         }
       );
     });
-  };
+  }
 
-  private static build = (
+  private static build(
     payload: JwtPayload,
+    email: string,
     secret: string,
     expiration: number | string
-  ): string => {
+  ): string {
     return jwt.sign(payload, secret, {
       expiresIn: expiration,
+      subject: email,
     });
-  };
+  }
 }

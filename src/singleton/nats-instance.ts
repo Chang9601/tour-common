@@ -6,7 +6,7 @@ import { NatsNotConnectedError } from '../error/nats/nats-not-connected.error';
 class NatsInstance {
   private _client?: nats.Stan;
 
-  public get client() {
+  public get client(): nats.Stan {
     if (!this._client) {
       throw new NatsNotConnectedError(
         Code.NATS_NOT_CONNECTED_ERROR,
@@ -18,7 +18,11 @@ class NatsInstance {
     return this._client;
   }
 
-  public connect(clusterId: string, clientId: string, url: string) {
+  public connect(
+    clusterId: string,
+    clientId: string,
+    url: string
+  ): Promise<void> {
     this._client = nats.connect(clusterId, clientId, {
       url,
       waitOnFirstConnect: true,

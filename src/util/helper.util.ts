@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
 
 import { UserRole } from '../enum/user-role.enum';
 import { AsyncFunction } from '../type/async-function.type';
@@ -41,7 +40,7 @@ export const mapStringToUserRole = (userRole: string): UserRole => {
 };
 
 export const mapStringToBoolean = (value: string): boolean => {
-  switch (value.toLowerCase()) {
+  switch (value) {
     case 'true':
       return true;
     case 'false':
@@ -54,7 +53,7 @@ export const mapStringToBoolean = (value: string): boolean => {
 export const sanitizeField = (
   data: any,
   ...allowedFields: string[]
-): { [key: string]: any } => {
+): Record<string, any> => {
   const result: {
     [key: string]: any;
   } = {};
@@ -75,4 +74,10 @@ export const isAllowedFileExtension = (filename: string): boolean => {
   return allowedExtensions.includes(fileExtension);
 };
 
-export const generateUsersKey = (id: mongoose.Types.ObjectId) => `users:${id}`;
+// export const isValidObjectId = (
+//   request: Request | RequestWithUser,
+//   response: Response,
+//   next: NextFunction
+// ): boolean => {
+//   return mongoose.Types.ObjectId.isValid(request.params.id);
+// };

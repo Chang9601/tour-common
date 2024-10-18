@@ -12,25 +12,35 @@ export class QueryBuilder<TDocument> {
 
   public filter(): QueryBuilder<TDocument> {
     /* 1. 필터링 */
-    const queryString = { ...this.queryString };
-    const excluded = ['page', 'sort', 'limit', 'fields'];
-    excluded.forEach((element) => delete queryString[element]);
+    const queryObject = { ...this.queryString };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((element) => delete queryObject[element]);
 
-    /* 2. 고급 필터링 TODO: 예시 적기. */
-    let filter = JSON.stringify(queryString);
-    filter = filter.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
+    /*
+     * 2. 고급 필터링
+     * tours?durations[gte]=5&difficult=easy)
+     * { difficult: 'easy', duraiton: { gte: '5' } } -> $를 추가한다.
+     */
+    const rawFilter = JSON.stringify(queryObject);
+    const processedFilter = rawFilter.replace(
+      /\b(gt|gte|lt|lte)\b/g,
+      (match) => `$${match}`
+    );
 
-    this.query = this.query.find(JSON.parse(filter));
+    this.query = this.query.find(JSON.parse(processedFilter));
 
     /* 메서드 체이닝을 위해 this(즉, 객체 전체)를 반환한다. */
     return this;
   }
 
   public sort(): QueryBuilder<TDocument> {
-    /* 3. 정렬 */
+    /*
+     * 3. 정렬
+     * tours?sort=-price,ratingAverage
+     * Mongoose는 -를 자동으로 내림차순으로 해석한다.
+     */
     if (this.queryString.sort) {
-      const sortBy = this.queryString.sort.split(',').join(' ');
-      this.query = this.query.sort(sortBy);
+      this.query = this.query.sort(this.queryString.sort.split(',').join(' '));
     } else {
       this.query = this.query.sort('-createdAt');
     }
@@ -39,11 +49,16 @@ export class QueryBuilder<TDocument> {
   }
 
   public project(): QueryBuilder<TDocument> {
-    /* 4. 필드 선택 */
+    /*
+     * 4. 필드 선택
+     * tours?fields=name,duration,price
+     */
     if (this.queryString.fields) {
-      const fields = this.queryString.fields.split(',').join(' ');
-      this.query = this.query.select(fields);
+      this.query = this.query.select(
+        this.queryString.fields.split(',').join(' ')
+      );
     } else {
+      /* -는 해당 필드를 제거한다.  */
       this.query = this.query.select('-__v');
     }
 
@@ -53,10 +68,10 @@ export class QueryBuilder<TDocument> {
   public paginate(): QueryBuilder<TDocument> {
     /*
      * 5. 페이지네이션
-     * page=2&limit=10 -> 1-10 page1 11-20 page2 21-30 page3
+     * page=2&limit=10 -> 1-10 page 1 11-20 page 2 21-30 page 3
      */
-    const page = +this.queryString.page;
-    const limit = +this.queryString.limit || 100;
+    const page = +this.queryString.page || 1;
+    const limit = +this.queryString.limit || 10;
     const skip = (page - 1) * limit;
 
     /*

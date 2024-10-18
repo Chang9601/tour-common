@@ -11,7 +11,6 @@ import {
   FilenameCallback,
 } from '../type/multer-callback.type';
 
-// TODO: skaffold에서 싱글톤 작동하는지 확인하기. 싱글톤이 아닌 Util 클래스로 수정하기.
 class MulterInstance {
   private _multer?: multer.Multer;
 
