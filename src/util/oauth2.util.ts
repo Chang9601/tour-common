@@ -5,7 +5,6 @@ import { OAuth2Provider } from '../enum/oauth2-provider.enum';
 import { OAuth2TokensError } from '../error/oauth2/oauth2-tokens.error';
 import { OAuth2UnlinkError } from '../error/oauth2/oauth2-unlink.error';
 import { OAuth2UserInfoError } from '../error/oauth2/oauth2-userinfo.error';
-import { Nullable } from '../type/nullish.type';
 import {
   OAuth2AccessTokenBody,
   OAuth2RefreshTokenBody,
@@ -84,7 +83,7 @@ export class OAuth2Util {
 
   public static async getGoogleUserInfo(
     accessToken: string
-  ): Promise<Nullable<OAuth2UserInfo>> {
+  ): Promise<OAuth2UserInfo> {
     return this.getUserInfo(OAuth2Provider.Google, accessToken);
   }
 
@@ -114,7 +113,7 @@ export class OAuth2Util {
 
   public static async getNaverUserInfo(
     accessToken: string
-  ): Promise<Nullable<OAuth2UserInfo>> {
+  ): Promise<OAuth2UserInfo> {
     return this.getUserInfo(OAuth2Provider.Naver, accessToken);
   }
 
@@ -234,7 +233,7 @@ export class OAuth2Util {
   private static async getUserInfo(
     oAuth2Provider: OAuth2Provider,
     accessToken: string
-  ): Promise<Nullable<OAuth2UserInfo>> {
+  ): Promise<OAuth2UserInfo> {
     const userInfoUri = this.getOAuth2UserInfoUri(oAuth2Provider);
 
     try {
@@ -249,7 +248,7 @@ export class OAuth2Util {
         userInfoResponse.data
       );
 
-      let oAuth2UserInfo: Nullable<OAuth2UserInfo>;
+      let oAuth2UserInfo: OAuth2UserInfo;
 
       if (oAuth2Provider === OAuth2Provider.Google) {
         oAuth2UserInfo = {
@@ -258,15 +257,13 @@ export class OAuth2Util {
           name: userInfo.name,
           provider: 'google',
         };
-      } else if (oAuth2Provider === OAuth2Provider.Naver) {
+      } else {
         oAuth2UserInfo = {
           id: userInfo.id,
           email: userInfo.email,
           name: userInfo.name,
           provider: 'naver',
         };
-      } else {
-        oAuth2UserInfo = null;
       }
 
       return oAuth2UserInfo;
