@@ -84,7 +84,7 @@ export const authenticationMiddleware = (redis: Redis) => {
 
       let user: Nullable<UserDocument>;
       let getCurrentUser: AxiosResponse<any, any>;
-      let cachedUser: Record<any, any>;
+      let cachedUser: Record<any, any> = {};
 
       /* 3. 사용자가 존재하는지 확인한다(테스트 환경에서 생략한다.). -> TODO: 코드 수정 */
       if (
@@ -111,7 +111,9 @@ export const authenticationMiddleware = (redis: Redis) => {
             );
           }
 
-          user = getCurrentUser!.data.data;
+          user = getCurrentUser.data.data;
+
+          console.log(user);
 
           cachedUser = {
             id: user!.id,
@@ -120,6 +122,8 @@ export const authenticationMiddleware = (redis: Redis) => {
           };
 
           await RedisUtil.cacheUser(cachedUser, 1 * 60 * 60, redis);
+        } else {
+          cachedUser = await RedisUtil.findUser(decoded.id, redis);
         }
 
         /* 4. 토큰 발행 후 비밀번호를 수정했는지 확인한다. */
@@ -133,7 +137,7 @@ export const authenticationMiddleware = (redis: Redis) => {
         // }
       }
 
-      cachedUser = await RedisUtil.findUser(decoded.id, redis);
+      console.log(cachedUser);
 
       /* 접근 제어되는 경로에 접근을 허락한다. */
       const userPayload: UserPayload = {
