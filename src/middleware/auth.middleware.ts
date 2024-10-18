@@ -91,17 +91,13 @@ export const authenticationMiddleware = (redis: Redis) => {
         process.env.NODE_ENV === 'development' ||
         process.env.NODE_ENV === 'production'
       ) {
-        cachedUser = await RedisUtil.findUser(decoded.id, redis);
-
-        //await redis.hgetall(`users:${decoded.id}`);
-
         const isCached = await RedisUtil.isCached(
           decoded.id,
           RedisType.User,
           redis
         );
 
-        if (isCached === 0) {
+        if (!isCached) {
           getCurrentUser = await axios.get(
             `http://auth:3000/api/v1/users/current-user/${decoded.id}`
           );
@@ -136,6 +132,8 @@ export const authenticationMiddleware = (redis: Redis) => {
         //   );
         // }
       }
+
+      cachedUser = await RedisUtil.findUser(decoded.id, redis);
 
       /* 접근 제어되는 경로에 접근을 허락한다. */
       const userPayload: UserPayload = {

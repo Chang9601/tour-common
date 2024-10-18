@@ -60,7 +60,7 @@ export class RedisUtil {
   }
 
   private static async findValue(key: string, redis: Redis) {
-    return await redis.hmget(key);
+    return await redis.hgetall(key);
   }
 }
 
