@@ -14,6 +14,7 @@ declare global {
       NODEMAILER_USER: string;
       NODEMAILER_PASS: string;
 
+      GOOGLE_OAUTH2_CLIENT_ID: string;
       GOOGLE_OAUTH2_CLIENT_SECRET: string;
       GOOGLE_OAUTH2_REDIRECT_URI: string;
 

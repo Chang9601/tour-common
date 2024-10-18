@@ -14,26 +14,53 @@ import {
 } from '../type/oauth2.type';
 
 export class OAuth2Util {
-  private GOOGLE_OAUTH2_AUTHORIZATION_GRANT = 'authorization_code';
-  private GOOGLE_OAUTH2_AUTHORIZATION_URI =
+  private static GOOGLE_OAUTH2_AUTHORIZATION_GRANT = 'authorization_code';
+  private static GOOGLE_OAUTH2_AUTHORIZATION_URI =
     'https://accounts.google.com/o/oauth2/v2/auth';
-  private GOOGLE_OAUTH2_SCOPE = 'email profile';
-  private GOOGLE_OAUTH2_STATE = 'oauth2-naver';
-  private GOOGLE_OAUTH2_TOKEN_URI = 'https://oauth2.googleapis.com/token';
-  private GOOGLE_OAUTH2_UNLINK = 'https://oauth2.googleapis.com/revoke';
-  private GOOGLE_OAUTH2_USERINFO_URI =
+  private static GOOGLE_OAUTH2_SCOPE = 'email profile';
+  private static GOOGLE_OAUTH2_STATE = 'oauth2-naver';
+  private static GOOGLE_OAUTH2_TOKEN_URI =
+    'https://oauth2.googleapis.com/token';
+  private static GOOGLE_OAUTH2_UNLINK = 'https://oauth2.googleapis.com/revoke';
+  private static GOOGLE_OAUTH2_USERINFO_URI =
     'https://www.googleapis.com/oauth2/v2/userinfo';
 
-  private NAVER_OAUTH2_AUTHORIZATION_GRANT = 'authorization_code';
-  private NAVER_OAUTH2_AUTHORIZATION_URI =
+  private static NAVER_OAUTH2_AUTHORIZATION_GRANT = 'authorization_code';
+  private static NAVER_OAUTH2_AUTHORIZATION_URI =
     'https://nid.naver.com/oauth2.0/authorize';
-  private NAVER_OAUTH2_SCOPE = 'email name';
-  private NAVER_OAUTH2_STATE = 'oauth2-google';
-  private NAVER_OAUTH2_TOKEN_URI = 'https://nid.naver.com/oauth2.0/token';
-  private NAVER_OAUTH2_UNLINK = 'https://nid.naver.com/oauth2.0/token	';
-  private NAVER_OAUTH2_USERINFO_URI = 'https://openapi.naver.com/v1/nid/me';
+  private static NAVER_OAUTH2_SCOPE = 'email name';
+  private static NAVER_OAUTH2_STATE = 'oauth2-google';
+  private static NAVER_OAUTH2_TOKEN_URI =
+    'https://nid.naver.com/oauth2.0/token';
+  private static NAVER_OAUTH2_UNLINK = 'https://nid.naver.com/oauth2.0/token	';
+  private static NAVER_OAUTH2_USERINFO_URI =
+    'https://openapi.naver.com/v1/nid/me';
 
-  public buildGoogleAuthroizationUri(): string {
+  private static get GOOGLE_OAUTH2_CLIENT_ID(): string {
+    return process.env.GOOGLE_OAUTH2_CLIENT_ID;
+  }
+
+  private static get GOOGLE_OAUTH2_CLIENT_SECRET(): string {
+    return process.env.GOOGLE_OAUTH2_CLIENT_SECRET;
+  }
+
+  private static get GOOGLE_OAUTH2_REDIRECT_URI(): string {
+    return process.env.GOOGLE_OAUTH2_REDIRECT_URI;
+  }
+
+  private static get NAVER_OAUTH2_CLIENT_ID(): string {
+    return process.env.NAVER_OAUTH2_CLIENT_ID;
+  }
+
+  private static get NAVER_OAUTH2_CLIENT_SECRET(): string {
+    return process.env.NAVER_OAUTH2_CLIENT_SECRET;
+  }
+
+  private static get NAVER_OAUTH2_REDIRECT_URI(): string {
+    return process.env.NAVER_OAUTH2_REDIRECT_URI;
+  }
+
+  public static buildGoogleAuthroizationUri(): string {
     const parameters =
       `?client_id=${this.getOAuth2ClientId(OAuth2Provider.Google)}` +
       `&redirect_uri=${this.getOAuth2RedirectUri(OAuth2Provider.Google)}` +
@@ -45,25 +72,27 @@ export class OAuth2Util {
     return this.buildAuthorizationUri(OAuth2Provider.Google, parameters);
   }
 
-  public async issueGoogleTokens(code: string): Promise<OAuth2Token> {
+  public static async issueGoogleTokens(code: string): Promise<OAuth2Token> {
     return this.issueTokens(OAuth2Provider.Google, code);
   }
 
-  public async reissueGoogleToken(oAuth2RefreshToken: string): Promise<string> {
+  public static async reissueGoogleToken(
+    oAuth2RefreshToken: string
+  ): Promise<string> {
     return this.reissueToken(OAuth2Provider.Google, oAuth2RefreshToken);
   }
 
-  public async getGoogleUserInfo(
+  public static async getGoogleUserInfo(
     accessToken: string
   ): Promise<Nullable<OAuth2UserInfo>> {
     return this.getUserInfo(OAuth2Provider.Google, accessToken);
   }
 
-  public async unlinkGoogle(oAuth2AccessToken: string) {
+  public static async unlinkGoogle(oAuth2AccessToken: string) {
     this.unlink(OAuth2Provider.Google, oAuth2AccessToken);
   }
 
-  public buildNaverAuthorizationUri(): string {
+  public static buildNaverAuthorizationUri(): string {
     const parameters =
       `?response_type=code` +
       `&client_id=${this.getOAuth2ClientId(OAuth2Provider.Naver)}` +
@@ -73,25 +102,27 @@ export class OAuth2Util {
     return this.buildAuthorizationUri(OAuth2Provider.Naver, parameters);
   }
 
-  public async issueNaverTokens(code: string): Promise<OAuth2Token> {
+  public static async issueNaverTokens(code: string): Promise<OAuth2Token> {
     return this.issueTokens(OAuth2Provider.Naver, code);
   }
 
-  public async reissueNaverToken(oAuth2RefreshToken: string): Promise<string> {
+  public static async reissueNaverToken(
+    oAuth2RefreshToken: string
+  ): Promise<string> {
     return this.reissueToken(OAuth2Provider.Naver, oAuth2RefreshToken);
   }
 
-  public async getNaverUserInfo(
+  public static async getNaverUserInfo(
     accessToken: string
   ): Promise<Nullable<OAuth2UserInfo>> {
     return this.getUserInfo(OAuth2Provider.Naver, accessToken);
   }
 
-  public async unlinkNaver(oAuth2AccessToken: string) {
+  public static async unlinkNaver(oAuth2AccessToken: string) {
     this.unlink(OAuth2Provider.Naver, oAuth2AccessToken);
   }
 
-  private buildAuthorizationUri(
+  private static buildAuthorizationUri(
     oAuth2Provider: OAuth2Provider,
     parameters: string
   ) {
@@ -105,7 +136,7 @@ export class OAuth2Util {
     }
   }
 
-  private async issueTokens(
+  private static async issueTokens(
     oAuth2Provider: OAuth2Provider,
     code: string
   ): Promise<OAuth2Token> {
@@ -156,7 +187,7 @@ export class OAuth2Util {
     }
   }
 
-  private async reissueToken(
+  private static async reissueToken(
     oAuth2Provider: OAuth2Provider,
     oAuth2RefreshToken: string
   ): Promise<string> {
@@ -200,7 +231,7 @@ export class OAuth2Util {
     }
   }
 
-  private async getUserInfo(
+  private static async getUserInfo(
     oAuth2Provider: OAuth2Provider,
     accessToken: string
   ): Promise<Nullable<OAuth2UserInfo>> {
@@ -249,7 +280,7 @@ export class OAuth2Util {
     }
   }
 
-  private async unlink(
+  private static async unlink(
     oAuth2Provider: OAuth2Provider,
     oAuth2AccessToken: string
   ) {
@@ -282,7 +313,9 @@ export class OAuth2Util {
     }
   }
 
-  private getOAuth2AuthorizationGrant(oAuth2Provider: OAuth2Provider): string {
+  private static getOAuth2AuthorizationGrant(
+    oAuth2Provider: OAuth2Provider
+  ): string {
     switch (oAuth2Provider) {
       case OAuth2Provider.Google:
         return this.GOOGLE_OAUTH2_AUTHORIZATION_GRANT;
@@ -293,40 +326,40 @@ export class OAuth2Util {
     }
   }
 
-  private getOAuth2ClientId(oAuth2Provider: OAuth2Provider): string {
+  private static getOAuth2ClientId(oAuth2Provider: OAuth2Provider): string {
     switch (oAuth2Provider) {
       case OAuth2Provider.Google:
-        return process.env.GOOGLE_OAUTH2_CLIENT_SECRET;
+        return this.GOOGLE_OAUTH2_CLIENT_ID;
       case OAuth2Provider.Naver:
-        return process.env.NAVER_OAUTH2_CLIENT_SECRET;
+        return this.NAVER_OAUTH2_CLIENT_ID;
       default:
         return '';
     }
   }
 
-  private getOAuth2ClientSecret(oAuth2Provider: OAuth2Provider): string {
+  private static getOAuth2ClientSecret(oAuth2Provider: OAuth2Provider): string {
     switch (oAuth2Provider) {
       case OAuth2Provider.Google:
-        return process.env.GOOGLE_OAUTH2_CLIENT_SECRET;
+        return this.GOOGLE_OAUTH2_CLIENT_SECRET;
       case OAuth2Provider.Naver:
-        return process.env.NAVER_OAUTH2_CLIENT_SECRET;
+        return this.NAVER_OAUTH2_CLIENT_SECRET;
       default:
         return '';
     }
   }
 
-  private getOAuth2RedirectUri(oAuth2Provider: OAuth2Provider): string {
+  private static getOAuth2RedirectUri(oAuth2Provider: OAuth2Provider): string {
     switch (oAuth2Provider) {
       case OAuth2Provider.Google:
-        return process.env.GOOGLE_OAUTH2_REDIRECT_URI;
+        return this.GOOGLE_OAUTH2_REDIRECT_URI;
       case OAuth2Provider.Naver:
-        return process.env.NAVER_OAUTH2_REDIRECT_URI;
+        return this.NAVER_OAUTH2_REDIRECT_URI;
       default:
         return '';
     }
   }
 
-  private getOAuth2TokenUri(oAuth2Provider: OAuth2Provider): string {
+  private static getOAuth2TokenUri(oAuth2Provider: OAuth2Provider): string {
     switch (oAuth2Provider) {
       case OAuth2Provider.Google:
         return this.GOOGLE_OAUTH2_TOKEN_URI;
@@ -337,7 +370,7 @@ export class OAuth2Util {
     }
   }
 
-  private getOAuth2UserInfo(
+  private static getOAuth2UserInfo(
     oAuth2Provider: OAuth2Provider,
     userInfo: any
   ): any {
@@ -351,7 +384,7 @@ export class OAuth2Util {
     }
   }
 
-  private getOAuth2UserInfoUri(oAuth2Provider: OAuth2Provider): string {
+  private static getOAuth2UserInfoUri(oAuth2Provider: OAuth2Provider): string {
     switch (oAuth2Provider) {
       case OAuth2Provider.Google:
         return this.GOOGLE_OAUTH2_USERINFO_URI;
@@ -362,7 +395,7 @@ export class OAuth2Util {
     }
   }
 
-  private getOAuth2Unlink(oAuth2Provider: OAuth2Provider): string {
+  private static getOAuth2Unlink(oAuth2Provider: OAuth2Provider): string {
     switch (oAuth2Provider) {
       case OAuth2Provider.Google:
         return this.GOOGLE_OAUTH2_UNLINK;
