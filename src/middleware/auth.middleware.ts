@@ -4,6 +4,7 @@ import { Redis } from 'ioredis';
 
 import { Code } from '../code/code';
 import { JwtType } from '../enum/jwt-type.enum';
+import { RedisType } from '../enum/redis-tye.enum';
 import { UserRole } from '../enum/user-role.enum';
 import { UnauthenticatedUserError } from '../error/user/unauthenticated-user.error';
 import { UnauthorizedUserError } from '../error/user/unauthorized-user.error';
@@ -20,7 +21,6 @@ import {
 import { JwtUtil } from '../util/jwt.util';
 import { RedisUtil } from '../util/redis.util';
 import { CookieUtil } from '../util/cookie.util';
-import { RedisType } from 'enum/redis-tye.enum';
 //import { cacheUser, findCachedUser } from '../util/redis.util';
 
 // TODO: cachedUser 타입 수정.
