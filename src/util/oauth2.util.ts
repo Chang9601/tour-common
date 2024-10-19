@@ -262,7 +262,7 @@ export class OAuth2Util {
 
       if (oAuth2Provider === OAuth2Provider.Google) {
         oAuth2UserInfo = {
-          id: userInfo.sub,
+          id: userInfo.id,
           email: userInfo.email,
           name: userInfo.name,
           provider: 'google',
