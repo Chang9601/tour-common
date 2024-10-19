@@ -13,6 +13,9 @@ import {
 } from '../type/oauth2.type';
 
 export class OAuth2Util {
+  private static CONTENT_TYPE =
+    'application/x-www-form-urlencoded; charset=utf-8';
+
   private static GOOGLE_OAUTH2_AUTHORIZATION_GRANT = 'authorization_code';
   private static GOOGLE_OAUTH2_AUTHORIZATION_URI =
     'https://accounts.google.com/o/oauth2/v2/auth';
@@ -164,7 +167,11 @@ export class OAuth2Util {
     }
 
     try {
-      tokenResponse = await axios.post(oAuth2TokenUri, oAuth2AccessTokenBody);
+      tokenResponse = await axios.post(oAuth2TokenUri, oAuth2AccessTokenBody, {
+        headers: {
+          'Content-Type': this.CONTENT_TYPE,
+        },
+      });
 
       console.log(tokenResponse);
 
@@ -215,7 +222,11 @@ export class OAuth2Util {
     }
 
     try {
-      tokenResponse = await axios.post(oAuth2TokenUri, oAuth2RefreshTokenBody);
+      tokenResponse = await axios.post(oAuth2TokenUri, oAuth2RefreshTokenBody, {
+        headers: {
+          'Content-Type': this.CONTENT_TYPE,
+        },
+      });
 
       return tokenResponse.data.access_token;
     } catch (error) {
@@ -238,6 +249,7 @@ export class OAuth2Util {
       const userInfoResponse = await axios.get(userInfoUri, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          'Content-Type': this.CONTENT_TYPE,
         },
       });
 
