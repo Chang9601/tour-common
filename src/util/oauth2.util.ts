@@ -81,9 +81,7 @@ export class OAuth2Util {
     return this.reissueToken(OAuth2Provider.Google, oAuth2RefreshToken);
   }
 
-  public static async getGoogleUserInfo(
-    accessToken: string
-  ): Promise<OAuth2UserInfo> {
+  public static async getGoogleUserInfo(accessToken: string): Promise<any> {
     return this.getUserInfo(OAuth2Provider.Google, accessToken);
   }
 
@@ -111,9 +109,7 @@ export class OAuth2Util {
     return this.reissueToken(OAuth2Provider.Naver, oAuth2RefreshToken);
   }
 
-  public static async getNaverUserInfo(
-    accessToken: string
-  ): Promise<OAuth2UserInfo> {
+  public static async getNaverUserInfo(accessToken: string): Promise<any> {
     return this.getUserInfo(OAuth2Provider.Naver, accessToken);
   }
 
@@ -139,7 +135,7 @@ export class OAuth2Util {
     oAuth2Provider: OAuth2Provider,
     code: string
   ): Promise<OAuth2Token> {
-    let oAuth2AccessTokenBody: OAuth2AccessTokenBody;
+    let oAuth2AccessTokenBody; //: OAuth2AccessTokenBody;
     let tokenResponse: AxiosResponse<any, any>;
 
     const oAuth2TokenUri = this.getOAuth2TokenUri(oAuth2Provider);
@@ -154,7 +150,7 @@ export class OAuth2Util {
         code,
         grant_type: grantType,
         redirect_uri: this.getOAuth2RedirectUri(oAuth2Provider),
-        provider: 'google',
+        // provider: 'google',
       };
     } else {
       oAuth2AccessTokenBody = {
@@ -163,12 +159,14 @@ export class OAuth2Util {
         code,
         grant_type: grantType,
         state: this.NAVER_OAUTH2_STATE,
-        provider: 'naver',
+        //  provider: 'naver',
       };
     }
 
     try {
       tokenResponse = await axios.post(oAuth2TokenUri, oAuth2AccessTokenBody);
+
+      console.log(tokenResponse);
 
       const tokens: OAuth2Token = {
         accessToken: tokenResponse.data.access_token,
@@ -190,7 +188,7 @@ export class OAuth2Util {
     oAuth2Provider: OAuth2Provider,
     oAuth2RefreshToken: string
   ): Promise<string> {
-    let oAuth2RefreshTokenBody: OAuth2RefreshTokenBody;
+    let oAuth2RefreshTokenBody; //: OAuth2RefreshTokenBody;
     let tokenResponse: AxiosResponse<any, any>;
 
     const oAuth2TokenUri = this.getOAuth2TokenUri(oAuth2Provider);
@@ -204,7 +202,7 @@ export class OAuth2Util {
         client_secret: clientSecret,
         refresh_token: oAuth2RefreshToken,
         grant_type: grantType,
-        provider: 'google',
+        //provider: 'google',
       };
     } else {
       oAuth2RefreshTokenBody = {
@@ -212,7 +210,7 @@ export class OAuth2Util {
         client_secret: clientSecret,
         refresh_token: oAuth2RefreshToken,
         grant_type: grantType,
-        provider: 'naver',
+        //provider: 'naver',
       };
     }
 
@@ -233,7 +231,7 @@ export class OAuth2Util {
   private static async getUserInfo(
     oAuth2Provider: OAuth2Provider,
     accessToken: string
-  ): Promise<OAuth2UserInfo> {
+  ): Promise<any> {
     const userInfoUri = this.getOAuth2UserInfoUri(oAuth2Provider);
 
     try {
@@ -248,21 +246,21 @@ export class OAuth2Util {
         userInfoResponse.data
       );
 
-      let oAuth2UserInfo: OAuth2UserInfo;
+      let oAuth2UserInfo; //: OAuth2UserInfo;
 
       if (oAuth2Provider === OAuth2Provider.Google) {
         oAuth2UserInfo = {
           id: userInfo.sub,
           email: userInfo.email,
           name: userInfo.name,
-          provider: 'google',
+          //provider: 'google',
         };
       } else {
         oAuth2UserInfo = {
           id: userInfo.id,
           email: userInfo.email,
           name: userInfo.name,
-          provider: 'naver',
+          //provider: 'naver',
         };
       }
 
