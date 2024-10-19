@@ -23,8 +23,20 @@ export class CookieUtil {
   }
 
   /* 쿠키를 제거하려면 키와 값 옵션이 정확히 일치해야 한다. (단, expires 옵션과 maxAge 옵션은 제외.) */
-  public static clear(key: string, path: string): string {
-    const cookie = `${key}=; Max-Age=0; Path=${path};`;
+  public static clear(
+    key: string,
+    httpOnly: boolean,
+    sameSite: string,
+    path: string,
+    secure: boolean
+  ): string {
+    //const cookie = `${key}=; Max-Age=0; Path=${path};`;
+
+    const cookie = `${key}=; ${
+      httpOnly ? 'HttpOnly;' : ''
+    } Max-Age=0; SameSite=${sameSite}; Path=${path}; ${
+      secure ? 'Secure;' : ''
+    }`;
 
     return cookie;
   }
@@ -54,8 +66,20 @@ export class CookieUtil {
 
   public static clearJwtCookies() {
     return [
-      this.clear(JwtType.AccessToken, '/'),
-      this.clear(JwtType.RefreshToken, '/'),
+      this.clear(
+        JwtType.AccessToken,
+        true,
+        'Strict',
+        '/',
+        process.env.NODE_ENV === 'production' ? true : false
+      ),
+      this.clear(
+        JwtType.RefreshToken,
+        true,
+        'Strict',
+        '/',
+        process.env.NODE_ENV === 'production' ? true : false
+      ),
     ];
   }
 }

@@ -8,6 +8,8 @@ export interface ReviewUpdatedEvent extends CoreEvent {
   data: {
     id: mongoose.Types.ObjectId;
     rating: number;
+    ratingsAverage: number;
+    ratingsCount: number;
     tour: { id: mongoose.Types.ObjectId };
     sequence: number;
   };

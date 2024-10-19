@@ -12,6 +12,8 @@ export interface ReviewCreatedEvent extends CoreEvent {
      * 하지만 모든 서비스를 MongoDB를 기반으로 하기 때문에 일단 사용하기로 한다.
      */
     id: mongoose.Types.ObjectId;
+    ratingsAverage: number;
+    ratingsCount: number;
     rating: number;
     tour: {
       id: mongoose.Types.ObjectId;

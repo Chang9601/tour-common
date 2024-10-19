@@ -48,7 +48,8 @@ export class JwtUtil {
       id: decoded.id,
     };
 
-    /* TODO
+    /*
+     * TODO
      * 로그인 시 이벤트로 각 서비스의 Redis에 새로고침 토큰 저장
      * 로그아웃 시 이벤트로 각 서비스의 Redis에 새로고침 토큰 삭제
      * 뭔가 비효율적
