@@ -68,7 +68,8 @@ export class OAuth2Util {
       `&redirect_uri=${this.getOAuth2RedirectUri(OAuth2Provider.Google)}` +
       `&response_type=code` +
       `&scope=${this.GOOGLE_OAUTH2_SCOPE}` +
-      `&access_type=offline`;
+      `&access_type=offline` +
+      `&state=${this.GOOGLE_OAUTH2_STATE}`;
 
     return this.buildAuthorizationUri(OAuth2Provider.Google, parameters);
   }
