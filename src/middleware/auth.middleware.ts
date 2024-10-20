@@ -98,11 +98,11 @@ export const authenticationMiddleware = (redis: Redis) => {
         );
 
         if (!isCached) {
-          getCurrentUser = await axios.get(
-            `http://auth:3000/api/v1/users/current-user/${decoded.id}`
-          );
-
-          if (getCurrentUser.status === Code.NOT_FOUND.code) {
+          try {
+            getCurrentUser = await axios.get(
+              `http://auth:3000/api/v1/users/current-user/${decoded.id}`
+            );
+          } catch (error) {
             return next(
               new UserNotFoundError(
                 Code.NOT_FOUND,
@@ -110,6 +110,14 @@ export const authenticationMiddleware = (redis: Redis) => {
               )
             );
           }
+          // if (getCurrentUser.status === Code.NOT_FOUND.code) {
+          //   return next(
+          //     new UserNotFoundError(
+          //       Code.NOT_FOUND,
+          //       '사용자가 존재하지 않습니다.'
+          //     )
+          //   );
+          // }
 
           user = getCurrentUser.data.data;
 
