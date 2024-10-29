@@ -59,7 +59,10 @@ export class RedisUtil {
     await redis.expire(key, expiration);
   }
 
-  private static async findValue(key: string, redis: Redis) {
+  private static async findValue(
+    key: string,
+    redis: Redis
+  ): Promise<Record<any, any>> {
     return await redis.hgetall(key);
   }
 }

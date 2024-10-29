@@ -13,6 +13,7 @@ import { UserDocument } from '../model/user.model';
 import { RequestWithUser, UserPayload } from '../type/auth.type';
 import { JwtDecoded } from '../type/jwt-decoded.type';
 import { Nullable } from '../type/nullish.type';
+import { CookieUtil } from '../util/cookie.util';
 import {
   catchAsync,
   mapStringToBoolean,
@@ -20,8 +21,6 @@ import {
 } from '../util/helper.util';
 import { JwtUtil } from '../util/jwt.util';
 import { RedisUtil } from '../util/redis.util';
-import { CookieUtil } from '../util/cookie.util';
-//import { cacheUser, findCachedUser } from '../util/redis.util';
 
 // TODO: cachedUser 타입 수정.
 export const authenticationMiddleware = (redis: Redis) => {
@@ -77,6 +76,8 @@ export const authenticationMiddleware = (redis: Redis) => {
           );
 
           response.setHeader('Set-Cookie', cookies);
+        } else {
+          return next(error);
         }
       }
 
@@ -110,14 +111,6 @@ export const authenticationMiddleware = (redis: Redis) => {
               )
             );
           }
-          // if (getCurrentUser.status === Code.NOT_FOUND.code) {
-          //   return next(
-          //     new UserNotFoundError(
-          //       Code.NOT_FOUND,
-          //       '사용자가 존재하지 않습니다.'
-          //     )
-          //   );
-          // }
 
           user = getCurrentUser.data.data;
 

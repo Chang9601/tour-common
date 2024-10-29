@@ -58,7 +58,7 @@ export class QueryBuilder<TDocument> {
         this.queryString.fields.split(',').join(' ')
       );
     } else {
-      /* -는 해당 필드를 제거한다.  */
+      /* -는 해당 필드를 제거한다. */
       this.query = this.query.select('-__v');
     }
 
